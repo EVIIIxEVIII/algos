@@ -10,9 +10,9 @@ public:
 
         dp[0] = true;
 
-        for (int i = 1; i < s.size(); ++i) {
+        for (int i = 1; i <= s.size(); ++i) {
             for (int j = 0; j < i; ++j) {
-                if (dp[j] && set.count(s.substr(j, i))) {
+                if (dp[j] && set.count(s.substr(j, i - j))) {
                     dp[i] = true;
                     break;
                 }
