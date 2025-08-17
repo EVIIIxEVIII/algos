@@ -23,7 +23,6 @@ public:
     }
 };
 
-
 int main() {
     std::string str = "leetcode";
     std::vector<std::string> wordDict{"leet","code"};
