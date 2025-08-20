@@ -1,5 +1,5 @@
 #include <string>
-#include <queue>
+#include <vector>
 
 class Solution {
 public:
@@ -7,49 +7,30 @@ public:
         int m = s1.size();
         int n = s2.size();
 
-        std::queue<int> candidatesS1;
-        std::queue<int> candidatesS2;
-
-        if (s1[0] == s3[0]) {
-            candidatesS1.push(0);
+        if (m + n != s3.size()) {
+            return false;
         }
 
-        if (s2[0] == s3[0]) {
-            candidatesS2.push(0);
-        }
+        std::vector<std::vector<bool>> dp(m+1, std::vector<bool>(n+1, false));
 
-        for (int i = 1; i < s3.size() - 1; ++i) {
-            int c1 = candidatesS1.size();
-            int c2 = candidatesS2.size();
-
-            for (int j = 0; j < c1; ++j) {
-                int idx = candidatesS1.front();
-                candidatesS1.pop();
-
-                if (idx + 1 < s2.size() && s2[idx + 1] == s3[i]) {
-                    candidatesS2.push(idx);
+        for (int i = 0; i <= m; ++i) {
+            for (int j = 0; j <= n; ++j) {
+                if (i - 1 < 0 && j - 1 < 0) {
+                    dp[i][j] = true;
+                    continue;
                 }
 
-                if (idx + 1 < s1.size() && s1[idx + 1] == s3[i]) {
-                    candidatesS1.push(idx);
+                if (i > 0 && s1[i - 1] == s3[i + j - 1] && dp[i - 1][j]) {
+                    dp[i][j] = true;
                 }
+
+                if (j > 0 && s2[j - 1] == s3[i + j - 1] && dp[i][j - 1]) {
+                    dp[i][j] = true;
+                }
+
             }
-
-            for (int j = 0; j < c2; ++j) {
-                int idx = candidatesS2.front();
-                candidatesS2.pop();
-
-                if (idx + 1 < s2.size() && s2[idx + 1] == s3[i]) {
-                    candidatesS2.push(idx);
-                }
-
-                if (idx + 1 < s1.size() && s1[idx + 1] == s3[i]) {
-                    candidatesS1.push(idx);
-                }
-            }
-
         }
 
-        return (candidatesS1.size() != 0) && (candidatesS2.size() != 0);
+        return dp[m][n];
     }
 };
