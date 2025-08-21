@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    int numDistinct(std::string s, std::string t) {
+        int n = s.size();
+        int m = t.size();
+
+        using U = unsigned long long;
+        std::vector<std::vector<U>> dp(m, std::vector<U>(n, 0));
+
+        for (int j = n - 1; j >= 0; --j) {
+            int prev = j + 1 < n ? dp[m - 1][j + 1] : 0;
+            if (s[j] == t[m - 1]) {
+                dp[m - 1][j] = prev + 1;
+            } else {
+                dp[m - 1][j] = prev;
+            }
+        }
+
+        for (int i = m - 2; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                int64_t prev = j + 1 < n ? dp[i][j + 1] : 0;
+
+                if (s[j] == t[i]) {
+                    int64_t bottom = (i + 1 < m && j + 1 < n) ? dp[i + 1][j + 1] : 0;
+                    dp[i][j] = prev + bottom;
+                } else {
+                    dp[i][j] = prev;
+                }
+
+            }
+        }
+
+        return (int)dp[0][0];
+    }
+};
