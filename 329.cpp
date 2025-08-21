@@ -7,34 +7,48 @@ public:
         int m = matrix.size();
         int n = matrix[0].size();
 
-        std::vector<std::vector<int>> dp(m, std::vector<int>(n, 1));
+        std::vector<std::vector<int>> dp(m, std::vector<int>(n, 0));
         int ans = 1;
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (j - 1 >= 0 && matrix[i][j - 1] > matrix[i][j]) {
-                    dp[i][j - 1] = std::max(dp[i][j] + 1, dp[i][j - 1]);
-                    ans = std::max(dp[i][j - 1], ans);
-                }
-
-                if (j + 1 < n && matrix[i][j + 1] > matrix[i][j]) {
-                    dp[i][j + 1] = std::max(dp[i][j] + 1, dp[i][j + 1]);
-                    ans = std::max(dp[i][j + 1], ans);
-                }
-
-                if (i - 1 >= 0 && matrix[i - 1][j] > matrix[i][j]) {
-                    dp[i - 1][j] = std::max(dp[i][j] + 1, dp[i - 1][j]);
-                    ans = std::max(dp[i - 1][j], ans);
-                }
-
-                if (i + 1 < m && matrix[i + 1][j] > matrix[i][j]) {
-                    dp[i + 1][j] = std::max(dp[i][j] + 1, dp[i + 1][j]);
-                    ans = std::max(dp[i + 1][j], ans);
-                }
+                ans = std::max(ans, findLongestPath(i, j, matrix, dp));
             }
         }
 
         return ans;
+    }
+
+    int findLongestPath(int i, int j, std::vector<std::vector<int>>& m, std::vector<std::vector<int>>& dp) {
+        if (i < 0 || j < 0 || i >= dp.size() || j >= dp[0].size()) {
+            return 0;
+        }
+
+        if (dp[i][j] != 0) {
+            return dp[i][j];
+        }
+
+        int val = 1;
+
+        if (i - 1 >= 0 && m[i - 1][j] > m[i][j]) {
+            val = std::max(findLongestPath(i - 1, j, m, dp) + 1, val);
+        }
+
+        if (j - 1 >= 0 && m[i][j - 1] > m[i][j]) {
+            val = std::max(findLongestPath(i, j - 1, m, dp) + 1, val);
+        }
+
+        if (i + 1 < m.size() && m[i + 1][j] > m[i][j]) {
+            val = std::max(findLongestPath(i + 1, j, m, dp) + 1, val);
+        }
+
+        if (j + 1 < m[0].size() && m[i][j + 1] > m[i][j]) {
+            val = std::max(findLongestPath(i, j + 1, m, dp) + 1, val);
+        }
+
+        dp[i][j] = val;
+
+        return val;
     }
 };
 
