@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdint>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+int digits(int x) {
+    if (x == 0) return 1;
+    int c = 0;
+    while (x != 0) {
+        x /= 10;
+        ++c;
+    }
+    return c;
+}
+
+
+int main() {
+    int tt; cin >> tt;
+
+    while(tt--) {
+        uint64_t n; cin >> n;
+
+        vector<int> ans;
+        for (int i = digits(n); i > 0; --i) {
+            if (n % (uint64_t)(pow(10, i) + 1) == 0) {
+                ans.push_back(n / (uint64_t)(pow(10, i) + 1));
+            }
+        }
+
+        cout << ans.size() << '\n';
+        for (int i = 0; i < digits(n); ++i) {
+
+        }
+
+
+    }
+
+
+}
