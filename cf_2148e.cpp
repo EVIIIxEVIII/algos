@@ -18,43 +18,40 @@ int main() {
             cin >> a[i];
         }
 
-        set<int> wn;
-        unordered_map<int, int> map;
-
+        vector<int> count(n+1, 0);
         for (int i = 0; i < n; ++i) {
-            map[a[i]]++;
+            count[a[i]]++;
         }
 
-        for (int i = 0; i < n; ++i) {
-            if (map[a[i]] % k != 0 || map[a[i]] < k) {
-                wn.insert(a[i]);
+        bool cont = false;
+        for (int i = 0; i <= n; ++i) {
+            if (count[i] % k) {
+                cout << 0 << endl;
+                cont = true;
+                break;
+            } else {
+                count[i] /= k;
             }
         }
+        if(cont) continue;
 
-        int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            auto localMap = map;
-            auto localWn = wn;
+        long long ans = 0;
+        int l = 0;
+        vector<int> localCnt(n+1, 0);
 
-            unordered_map<int, int> used;
+        for (int r = 0; r < n; ++r) {
+            int x = a[r];
+            localCnt[x]++;
 
-            for (int j = i; j < n; ++j) {
-                used[a[j]]++;
-                localMap[a[j]]--;
-
-                int remaining = localMap[a[j]] - used[a[j]] * (k-1);
-
-                if (remaining % k == 0 && remaining >= k) {
-                    localWn.erase(a[j]);
-                } else {
-                    localWn.insert(a[j]);
-                }
-
-                if (localWn.empty()) ans++;
+            while (localCnt[x] > count[x]) {
+                localCnt[a[l]]--;
+                l++;
             }
+
+            ans += (r - l + 1);
         }
 
-        cout << ans << '\n';
+        cout << ans << endl;
     }
 
     return 0;
