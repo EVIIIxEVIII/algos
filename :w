@@ -27,13 +27,15 @@ int main() {
              return a.size() < b.size();
          });
 
-        int cols = a.size();
-        int j = 0;
+        vector<int> current(n);
+        iota(current.begin(), current.end(), 0);
+        vector<int> next;
 
+        for (int i = 0; i < n; ++i) {
+            int min = 10;
 
-        for (int i = 0; i < cols; ++i) {
-
-
+            string s = to_string(abs(n));
+            int firstDigit = s[0] - '0';
 
 
         }
