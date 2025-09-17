@@ -11,10 +11,10 @@ int main() {
     while (tt--) {
         int n; cin >> n;
 
-        vector<int> u(n);
-        vector<int> v(n);
-        vector<int> x(n);
-        vector<int> y(n);
+        vector<int> u(n-1);
+        vector<int> v(n-1);
+        vector<int> x(n-1);
+        vector<int> y(n-1);
 
         for (int i = 0; i < n-1; ++i) {
             cin >> u[i];
@@ -23,38 +23,40 @@ int main() {
             cin >> y[i];
         }
 
-        vector<bool> used(n+1);
-        for (int i = 0; i <= n; ++i) used[i] = false;
-        deque<int> ans;
+        vector<vector<int>> g(n+1, vector<int>(0));
+        vector<int> indeg(n+1, 0);
 
         for (int i = 0; i < n-1; ++i) {
-            if (x[i] > y[i]) {
-                if (!used[u[i]]) {
-                    ans.push_back(u[i]);
-                    used[u[i]] = true;
-                }
-
-                if (!used[v[i]]) {
-                    ans.push_front(v[i]);
-                    used[v[i]] = true;
-                }
+            if (x[i] <= y[i]) {
+                g[u[i]].push_back(v[i]);
+                indeg[v[i]]++;
             } else {
-                if (!used[u[i]]) {
-                    ans.push_front(u[i]);
-                    used[u[i]] = true;
-                }
+                g[v[i]].push_back(u[i]);
+                indeg[u[i]]++;
+            }
+        }
 
-                if (!used[v[i]]) {
-                    ans.push_back(v[i]);
-                    used[v[i]] = true;
+        queue<int> q;
+        for (int i = 1; i <= n; ++i) {
+            if (indeg[i] == 0) q.push(i);
+        }
+
+        vector<int> p(n+1);
+        int label = 1;
+        while (!q.empty()) {
+            int node = q.front(); q.pop();
+
+            p[node] = label;
+            label++;
+
+            for (int i = 0; i < g[node].size(); ++i) {
+                if (--indeg[g[node][i]] == 0) {
+                    q.push(g[node][i]);
                 }
             }
         }
 
-        for (auto x : ans) {
-            cout << x << ' ';
-        }
-
+        for (int i = 1; i < n+1; ++i) cout << p[i] << ' ';
         cout << '\n';
     }
 
