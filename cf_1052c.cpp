@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <string>
 using namespace std;
 
 int main() {
@@ -16,33 +17,58 @@ int main() {
             cin >> s[i];
         }
 
-        int seqLen = 0;
-        bool ok = true;
+        vector<array<int, 2>> blocks;
 
+        int lastBlock = 0;
+        bool inBlock = false;
         for (int i = 0; i < n; ++i) {
-            if (s[i] == '1') {
-                if (seqLen % 2 && seqLen < 5) {
-                    ok =  false;
-                }
+            if (s[i] == '0' && !inBlock) {
+                inBlock = true;
+                blocks.push_back({i, i});
+            }
 
-                seqLen = 0;
-            } else {
-                seqLen++;
+            if (s[i] == '1' && inBlock) {
+                inBlock = false;
+                blocks[lastBlock][1] = i;
+                lastBlock++;
             }
         }
 
-        if (!ok) {
-            cout << "NO" << '\n';
-            continue;
+        if (inBlock) {
+            blocks[lastBlock][1] = n;
         }
 
-        string out;
-        out.resize(n);
+        bool ans = true;
+        vector<int> out(n, 0);
 
+        int curr = 0;
 
+        for (int i = 0; i < n; ++i) {
+            if (s[i] == '1') {
+                out[i] = i+1;
+            }
+        }
 
+        for (int i = 0; i < blocks.size(); ++i) {
+            if (blocks[i][1] - blocks[i][0] == 1) {
+                ans = false;
+                break;
+            }
 
+            for (int j = blocks[i][0]; j < blocks[i][1]-1; ++j) {
+                out[j] = j+2;
+            }
 
+            out[blocks[i][1]-1] = blocks[i][0]+1;
+        }
+
+        if (ans) {
+            cout << "YES" << '\n';
+            for(int i = 0; i < n; ++i) cout << out[i] << ' ';
+            cout << '\n';
+        } else {
+            cout << "NO" << '\n';
+        }
     }
     return 0;
 }
