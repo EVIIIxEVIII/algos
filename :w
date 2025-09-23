@@ -7,17 +7,35 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int n, m, k;
-        cin >> n >> m >> k;
+        int n; cin >> n;
 
-        vector<int, vector<int>> grid(n, vector<int>(m));
+        vector<vector<int>> queues(n, vector<int>(n));
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                cin >> queues[i][j];
+            }
+        }
+
+        vector<vector<int>> prefix(n, vector<int>(n+1));
+        for (int i = 0; i < n; ++i) {
+            int rowSum = 0;
+            for (int j = 0; j < n; ++j) {
+                rowSum += queues[i][j];
+            }
+
+            prefix[i][0] = rowSum;
+            for (int j = 1; j <= n; ++j) {
+                prefix[i][j] = prefix[i][j-1] - queues[i][j-1];
+            }
+        }
 
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                cin >> grid[i][j];
+            for (int j = 0; j < n; ++j) {
+
             }
         }
 
     }
+
     return 0;
 }
