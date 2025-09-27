@@ -10,18 +10,22 @@ int main() {
         long long n, k;
         cin >> n >> k;
 
-        if (k > pow(2, n-1)) {
+        if (n <= 60 && (1ll << (n-1)) < k) {
             cout << -1 << '\n';
             continue;
         }
 
         k--;
 
-        vector<int> a(n-1);
-        for (long long i = n - 2; i >= 0; --i) {
-            long long bit = (k >> (n - 2 - i)) & 1;
-            a[i] = bit;
+        vector<int> a;
+        while (k) {
+            a.push_back(k%2);
+            k /= 2;
         }
+
+        while (a.size() < n-1) a.push_back(0);
+
+        reverse(a.begin(), a.end());
 
         int l = 0, r = n-1;
         vector<int> ans(n);
