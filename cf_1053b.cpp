@@ -14,24 +14,27 @@ int main() {
         s.resize(n);
         for (int i = 0; i < n; ++i) cin >> s[i];
 
-        vector<int> a(n);
-        for (int i = 0; i < m; ++i) cin >> a[i];
+        vector<vector<int>> a;
+        int num; cin >> num;
+        int lastNum = num;
+        a.push_back({0});
+        a.push_back({lastNum});
 
-        int nextWhite = 0;
-
-        for (int i = 0; i < m; ++i) {
-            if (a[i] != i+1) {
-                nextWhite = i+1;
+        for (int i = 0; i < m-1; ++i) {
+            int num; cin >> num;
+            if (num == lastNum + 1) {
+                a.back().push_back(num);
+            } else {
+                a.push_back({num});
             }
         }
 
-        int current = 0;
         for (int i = 0; i < n; ++i) {
-            if (s[i] == 'A') {
-                current++;
-            } else {
+            if () {
 
             }
+
+
         }
 
 
