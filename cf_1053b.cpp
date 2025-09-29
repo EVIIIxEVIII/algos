@@ -14,31 +14,32 @@ int main() {
         s.resize(n);
         for (int i = 0; i < n; ++i) cin >> s[i];
 
-        vector<vector<int>> a;
-        int num; cin >> num;
-        int lastNum = num;
-        a.push_back({0});
-        a.push_back({lastNum});
+        set<int> a;
 
-        for (int i = 0; i < m-1; ++i) {
+        for (int i = 0; i < m; ++i) {
             int num; cin >> num;
-            if (num == lastNum + 1) {
-                a.back().push_back(num);
-            } else {
-                a.push_back({num});
-            }
+            a.insert(num);
         }
+
+        int cur = 1;
 
         for (int i = 0; i < n; ++i) {
-            if () {
+            cur++;
 
+            if (s[i] == 'B') {
+                while (a.count(cur)) cur++;
             }
 
+            a.insert(cur);
 
+            if (s[i] == 'B') {
+                while (a.count(cur)) cur++;
+            }
         }
 
-
-
+        cout << a.size() << '\n';
+        for (auto& x: a) cout << x << ' ';
+        cout << '\n';
     }
     return 0;
 }
