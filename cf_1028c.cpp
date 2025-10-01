@@ -38,14 +38,17 @@ int main() {
             }
         }
 
-        int minPath = max(dp[1]-1, 0);
+        int minPath = dp[1];
         int ans = minPath;
 
         for (int i = 0; i < n; ++i) {
             if (a[i] != 1) ans++;
         }
 
-        cout << ans << '\n';
+        // if minPath > 0 it means we have already changed one element to 1
+        // by using minPath steps, so decrease by 1 to avoid double counting
+        // editorial makes it very confusing
+        cout << ans - (minPath > 0) << '\n';
 
         // gcd(6, 14) = 2
         // gcd(6, 15) = 3
