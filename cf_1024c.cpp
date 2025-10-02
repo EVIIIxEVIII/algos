@@ -13,13 +13,38 @@ int main() {
         vector<vector<int>> grid(n, vector<int>(n));
         int current = n*n - 1;
 
-        for (int i = 0; i < (n+1)/2; ++i) {
+        int top = 0, bottom = n - 1;
+        int left = 0, right = n - 1;
 
-            for (int j = i; j < n-i; ++j) {
-                grid[i][j] = current--;
+        while (top <= bottom && left <= right) {
+
+            for (int j = left; j <= right; ++j) {
+                grid[top][j] = current--;
             }
 
+            top++;
+            if (top > bottom) break;
 
+            for (int j = top; j <= bottom; ++j) {
+                grid[j][right] = current--;
+            }
+
+            right--;
+            if (left > right) break;
+
+            for (int j = right; j >= left; --j) {
+                grid[bottom][j] = current--;
+            }
+
+            bottom--;
+            if (top > bottom) break;
+
+            for (int j = bottom; j >= top; --j) {
+                grid[j][left] = current--;
+            }
+
+            left++;
+            if (left > right) break;
         }
 
         for (int i = 0; i < n; ++i) {

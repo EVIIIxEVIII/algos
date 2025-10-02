@@ -44,7 +44,12 @@ int main() {
                 list.pop_back();
             }
 
+            if (impossible) break;
             while(current + list.size() > r[i]) {
+                if (list.empty()) {
+                    impossible = true;
+                    break;
+                }
                 d[list.back()] = 0;
                 list.pop_back();
             }
@@ -55,7 +60,7 @@ int main() {
         if (impossible) {
             cout << -1 << '\n';
         } else {
-            for (int i = 0; i < n; ++i) cout << d[i] << ' ';
+            for (int i = 0; i < n; ++i) cout << max(d[i], 0) << ' ';
             cout << '\n';
         }
     }
