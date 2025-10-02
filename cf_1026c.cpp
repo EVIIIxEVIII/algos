@@ -9,40 +9,55 @@ int main() {
     while (t--) {
         int n; cin >> n;
         vector<int> d(n);
-        vector<array<int, 2>> a(n);
+        vector<int> l(n);
+        vector<int> r(n);
 
         for (int i = 0; i < n; ++i) {
             cin >> d[i];
         }
 
         for (int i = 0; i < n; ++i) {
-            cin >> a[i][0];
-            cin >> a[i][1];
+            cin >> l[i];
+            cin >> r[i];
         }
 
-        vector<int> maxHeight(n+1, 0);
-        for (int i = 1; i <= n; ++i) {
-            maxHeight[i] = min(maxHeight[i-1]+1, a[i-1][1]);
-        }
+        vector<int> list;
 
+        int current = 0;
         bool impossible = false;
-        for (int i = 1; i <= n; ++i) {
-            if (maxHeight[i-1] < a[i-1][0]) {
-                impossible = true;
-                break;
+
+        for (int i = 0; i < n; ++i) {
+            if (d[i] == -1) {
+                list.push_back(i);
+            } else {
+                current += d[i];
             }
+
+            while (current < l[i]) {
+                if (list.empty()) {
+                    impossible = true;
+                    break;
+                }
+
+                d[list.back()] = 1;
+                current++;
+                list.pop_back();
+            }
+
+            while(current + list.size() > r[i]) {
+                d[list.back()] = 0;
+                list.pop_back();
+            }
+
+            if (impossible) break;
         }
 
-        for (int i = 1; i <= n; ++i) {
-            cout << maxHeight[i] << ' ';
+        if (impossible) {
+            cout << -1 << '\n';
+        } else {
+            for (int i = 0; i < n; ++i) cout << d[i] << ' ';
+            cout << '\n';
         }
-        cout << '\n';
-
-        //if (impossible) {
-        //    cout << -1 << '\n';
-        //    continue;
-        //}
-
     }
     return 0;
 }
