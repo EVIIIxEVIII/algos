@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <climits>
 using namespace std;
 
 int main() {
@@ -7,70 +8,59 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int n; cin >> n;
-        int k; cin >> k;
+        long long n; cin >> n;
+        long long k; cin >> k;
 
         string s;
         s.resize(n);
 
-        vector<int> a(n);
+        vector<long long> a(n);
 
         for (int i = 0; i < n; ++i) { cin >> s[i]; }
         for (int i = 0; i < n; ++i) { cin >> a[i]; }
 
-
-        int best = INT_MIN;
-        int current = 0;
-
-        vector<int> currents(n, 0);
-        vector<int> frees;
+        int targetPos = -1;
 
         for (int i = 0; i < n; ++i) {
             if (s[i] == '0') {
-                current = 0;
-                frees.push_back(i);
-                continue;
+                targetPos = i;
+                a[i] = -1e13;
             }
+        }
 
-            if (current + a[i] < 0) {
-                current = a[i];
-            } else {
-                current += a[i];
-            }
-
-            currents[i] = current;
+        long long best = 0;
+        long long current = 0;
+        for (int i = 0; i < n; ++i) {
+            current = max(a[i], current+a[i]);
             best = max(best, current);
         }
 
-        if (best > k || (!frees.size() && k != best)) {
+        if (best > k || (targetPos == -1 && k != best)) {
             cout << "NO" << '\n';
             continue;
-        } else if (!frees.size() && k == best) {
-            cout << "YES" << '\n';
-            for (int i = 0; i < n; ++i) cout << a[i] << ' ';
-            cout << '\n';
-            continue;
-        } else {
-            cout << "YES" << '\n';
         }
 
-        int targetPos = frees[0];
-        int before = max(targetPos-1 >= 0 ? currents[targetPos-1] : 0, 0);
-        int after = 0;
+        if (targetPos != -1) {
+            long long postfix = 0;
+            long long prefix = 0;
 
-        for (int i = targetPos; i < n; ++i) {
-            if (i > targetPos+1 && currents[i] == a[i]) break;
-            after = max(currents[i], after);
+            long long before = 0;
+            long long after = 0;
+
+            for (int i = targetPos-1; i >= 0; --i) {
+                postfix += a[i];
+                before = max(postfix, before);
+            }
+
+            for (int i = targetPos+1; i < n; ++i) {
+                prefix += a[i];
+                after = max(prefix, after);
+            }
+
+            a[targetPos] = k - before - after;
         }
 
-        for (int i = 0; i < frees.size(); ++i) {
-            a[frees[i]] = INT_MIN;
-        }
-
-        cout << "After: " << after << '\n';
-
-        a[targetPos] = k - (before + after);
-
+        cout << "YES" << '\n';
         for (int i = 0; i < n; ++i) {
             cout << a[i] << ' ';
         }
