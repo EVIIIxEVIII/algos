@@ -25,7 +25,6 @@ int main() {
             colDistance = cd;
         }
 
-
         cout << max(rowDistance, colDistance) << '\n';
     }
     return 0;
