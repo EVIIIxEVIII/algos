@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+
+        string s;
+        for (int i = 0; i < k; ++i) {
+            cin >> s[i];
+        }
+
+        deque<char> top;
+        deque<char> bottom;
+        int qs = 0;
+
+        for (int i = 0; i < k; ++i) {
+            if (s[i] == '0') {
+                top.push_front('-');
+            } else if (s[i] == '1') {
+                bottom.push_back('-');
+            } else {
+                qs++;
+            }
+        }
+
+        if (top.size() + bottom.size()) {
+
+        }
+
+        for (int i = 0; i < top.size() && i < n/2; ++i) {
+            cout << top[i] << ' ';
+        }
+
+        for (int i = 0; i < bottom.size() && i < n/2; ++i) {
+            cout << bottom[i] << ' ';
+        }
+
+
+
+        cout << '\n';
+    }
+    return 0;
+}
