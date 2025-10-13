@@ -27,7 +27,7 @@ int main() {
         vector<int> indeg(n+1, 0);
 
         for (int i = 0; i < n-1; ++i) {
-            if (x[i] <= y[i]) {
+            if (x[i] >= y[i]) {
                 g[u[i]].push_back(v[i]);
                 indeg[v[i]]++;
             } else {
@@ -42,12 +42,12 @@ int main() {
         }
 
         vector<int> p(n+1);
-        int label = 1;
+        int label = n;
         while (!q.empty()) {
             int node = q.front(); q.pop();
 
             p[node] = label;
-            label++;
+            label--;
 
             for (int i = 0; i < g[node].size(); ++i) {
                 if (--indeg[g[node][i]] == 0) {
