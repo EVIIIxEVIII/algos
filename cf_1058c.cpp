@@ -14,21 +14,21 @@ int main() {
             continue;
         }
 
-        int digits = 32 - __builtin_clz(n);
-        digits += digits%2;
+        int r = __builtin_ctz(n);
+        int l = 31 - __builtin_clz(n);
 
-        int side1 = 0;
-        int side2 = 0;
-
-        for (int i = 0; i < digits/2; ++i) {
-            int cmp1 = ((n >> (digits - i - 1)) & 1);
-            int cmp2 = ((n >> i) & 1);
-
-            side1 += cmp1;
-            side2 += cmp2;
+        int reverse = 0;
+        for (int i = l, j = r; i >= r; --i, ++j) {
+            reverse |= ((n >> i) & 1) << j;
         }
 
-        cout << (side1 == side2 ? "YES" : "NO") << '\n';
+        int mid = (l + r) / 2;
+        if (reverse != n || ((l - r + 1) % 2 && (n >> mid) & 1)) {
+            cout << "NO" << '\n';
+        } else {
+            cout << "YES" << '\n';
+        }
+
     }
     return 0;
 }
