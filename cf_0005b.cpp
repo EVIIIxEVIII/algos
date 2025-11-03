@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <climits>
 using namespace std;
 
 int main() {
@@ -10,45 +11,46 @@ int main() {
         int n; cin >> n;
         vector<string> grid(n);
 
+        bool ans = true;
         for (int i = 0; i < n; ++i) {
             cin >> grid[i];
         }
 
-        bool ans = true;
-        for (int i = 0; i < n; ++i) {
-            int start = -1;
-            int finish = -1;
+        long long maxSum = LLONG_MIN;
+        long long minSum = LLONG_MAX;
 
-            for (int j = 0; j < n; ++j) {
+        long long maxDiff = LLONG_MIN;
+        long long minDiff = LLONG_MAX;
+
+        long long maxX = LLONG_MIN;
+        long long minX = LLONG_MAX;
+
+        long long maxY = LLONG_MIN;
+        long long minY = LLONG_MAX;
+
+        for (long long i = 0; i < n; ++i) {
+            for (long long j = 0; j < n; ++j) {
                 if (grid[i][j] == '#') {
-                    if (start == -1) start = j;
-                    finish = j;
-                }
-            }
+                    maxSum = max(maxSum, i + j);
+                    minSum = min(minSum, i + j);
 
-            if (start != -1 && finish != -1) {
-                ans = (finish - start) > 1 ? false : ans;
+                    maxDiff = max(maxDiff, i - j);
+                    minDiff = min(minDiff, i - j);
+
+                    maxX = max(maxX, i);
+                    minX = min(minX, i);
+
+                    maxY = max(maxY, j);
+                    minY = min(minY, j);
+                }
             }
         }
 
-        for (int j = 0; j < n; ++j) {
-            int start = -1;
-            int finish = -1;
-
-            for (int i = 0; i < n; ++i) {
-                if (grid[i][j] == '#') {
-                    if (start == -1) start = i;
-                    finish = i;
-                }
-            }
-
-            if (start != -1 && finish != -1) {
-                ans = (finish - start) > 1 ? false : ans;
-            }
+        if (maxSum - minSum <= 1 || maxDiff - minDiff <= 1 || (maxX - minX <= 1 && maxY - minY <= 1)) {
+            cout << "YES" << '\n';
+        } else {
+            cout << "NO" << '\n';
         }
-
-        cout << (ans ? "YES" : "NO") << '\n';
-
     }
     return 0;
 }
