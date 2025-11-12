@@ -14,26 +14,32 @@ int main() {
             cin >> a[i];
         }
 
-        // ok, so we have the array a, which tells us the number of black cells on each row
-        // the second condition tells us that we have to use all of the columns or all of the rows
-        // the third condition is more complicated, so on its own it behaves the same as the first one,
-        // but together they make the problem complicated...
-
-        // let's say we didn't have the third condition, then we could have computed the number of possible
-        // configurations as just going through each row and doing
-        // result *= a[i] choose n; and this should probably work...
-
-        // now, let's consider the third condition
-        // it somehows forces us to ignore the bottom part of the grid, because we have to both respect
-        // the one cell per column and the second constraint.
-
-        // so the y_i should contain all the numbers in [1, n]
-        // until the first the y_i dominates from the third condition, after the half
-        // the x_i dominates, because of the max(x_i, y_i) and max(x_i, n + 1 - y_i)
+        // ok, so the new idea goes something like this:
+        // we basically have a pyramid, but turned down
+        // on the first row we can place the value in any cell, but we must put them in the
+        // corners, because this is the only row which supports values (1, n) (n, 1)
+        // and every other row suppors n - 2 values in the center
+        // but you can place a value for some column at a row lower
+        //
+        // so the "rigid" configuration is when we have exactly 2 on each row besides the last
+        // one where we have (n % 2 == 0) black cells
+        //
+        // ok, what's next?
+        //
+        // so if we have exactly 2 on each row, then we have the rigid case
+        // buf if we have an additional one, we get some room for change
+        // let's say we have the 5 by 5 case with 1 additional cell on the first row,
+        // this means that we can move that cell 3 times
+        // so if there is a free cell I can move it n - i*2 number of times
+        // or more generall n - i*2 choose k (probably) where k is the number of these "free" cells we have on row i
+        // but we might have a rigid configuration at the top of the pyramid, so we have to take into account that
+        // so something like n - i*2 choose k - rigid cells, where k = 0
+        //
+        // but we know that we must have 2 cells on each row, besides the last one where it depends on the parity,
+        // so if we have k cells on row i, then it means we have k less rows on the next few rows
 
         long long sum = 0;
-
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < (n+1)/2; ++i) {
             sum += a[i];
         }
 
@@ -41,6 +47,21 @@ int main() {
             cout << 0 << '\n';
             continue;
         }
+
+        bool ans = true;
+        for (int i = 0; i < (n+1)/2; ++i) {
+            if (a[i] > n - i*2) {
+                ans = false; // row has more cells than the allowed
+                break;
+            }
+        }
+
+        if (!ans) {
+            cout << 0 << '\n';
+            continue;
+        }
+
+
 
 
     }
