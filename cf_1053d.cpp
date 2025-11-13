@@ -37,6 +37,10 @@ int main() {
         //
         // but we know that we must have 2 cells on each row, besides the last one where it depends on the parity,
         // so if we have k cells on row i, then it means we have k less rows on the next few rows
+        //
+        // I don't know how to count these. I completely understand the problem.
+        // We have a pyramid that is turned upside down and on each column we can choose any cell
+        // the problem is the fixed number of rows, which dictates where what column we must select the cell in.
 
         long long sum = 0;
         for (int i = 0; i < (n+1)/2; ++i) {
@@ -61,9 +65,7 @@ int main() {
             continue;
         }
 
-
-
-
+        cout << "Don't know" << '\n';
     }
     return 0;
 }
