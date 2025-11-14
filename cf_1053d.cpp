@@ -43,7 +43,7 @@ int main() {
         // the problem is the fixed number of rows, which dictates where what column we must select the cell in.
 
         long long sum = 0;
-        for (int i = 0; i < (n+1)/2; ++i) {
+        for (int i = 0; i < n; ++i) {
             sum += a[i];
         }
 
@@ -52,18 +52,27 @@ int main() {
             continue;
         }
 
-        bool ans = true;
-        for (int i = 0; i < (n+1)/2; ++i) {
-            if (a[i] > n - i*2) {
-                ans = false; // row has more cells than the allowed
+
+        int curr = 0;
+        long long ans = 1;
+
+        for (int i = n-1; i >= 0; --i) {
+            if (2*i == n + 1) {
+                curr += 1;
+            } else if (2*i <= n) {
+                curr += 2;
+            }
+
+            if (curr < a[i]) {
+                ans = 0;
                 break;
             }
+
+            ans *= n! / k!(n - k)!;
+
+
         }
 
-        if (!ans) {
-            cout << 0 << '\n';
-            continue;
-        }
 
         cout << "Don't know" << '\n';
     }
