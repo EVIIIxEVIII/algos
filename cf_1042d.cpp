@@ -9,12 +9,16 @@ int main() {
     while (t--) {
         int n; cin >> n;
 
+        vector<int> deg(n+1, 0);
         vector<vector<int>> tree(n+1);
         for (int i = 0; i < n-1; ++i) {
             int u, v;
             cin >> u >> v;
             tree[u].push_back(v);
             tree[v].push_back(u);
+
+            deg[u]++;
+            deg[v]++;
         }
 
         if (n == 2) {
@@ -25,36 +29,26 @@ int main() {
         // at each point in time we have to choose the node from the "perspective" which
         // there is the least amount of branches. A branch is an additional edge of a node.
 
-        int totalBranches = 0;
+        int total = 0;
+
         for (int i = 1; i <= n; ++i) {
-            if (tree[i].size() > 2) {
-                totalBranches += (tree[i].size() - 2);
+            if (deg[i] == 1) {
+                total++;
             }
         }
 
-        if (totalBranches == n-3) {
-            cout << 0 << '\n'; // already minimum
-            continue;
-        }
-
-        int ans = INT_MAX;
-
-        //cout << totalBranches << '\n';
+        int best = 0;
         for (int i = 1; i <= n; ++i) {
-            int branchReduction = max(0, (int)tree[i].size() - 2);
-            int val = totalBranches - branchReduction;
-
-            int add = 0;
-            for (int j = 0; j < (int)tree[i].size(); j++) {
-                if (tree[tree[i][j]].size() >= 2) {
-                    add++;
+            int localBest = 0;
+            for (int j = 0; j < (int)tree[i].size(); ++j) {
+                if (deg[tree[i][j]] == 1) {
+                    localBest++;
                 }
             }
-
-            ans = min(ans, val + (add >= 2 ? 2 : 1));
+            best = max(localBest, best);
         }
 
-        cout << ans << '\n';
+        cout << total - best << '\n';
     }
     return 0;
 }
