@@ -40,10 +40,11 @@ int main() {
             ans = odd + 2 * even;
         } else {
             if (n % 2 == 0) {
-                if (even % 2 == 0) ans = even * 2;
+                if (even % 2 == 0) ans = even * 2; // so if n is even we have to have an even number of even counts
+                // because the sum of an even number of odd numbers is even
                 else ans = (even - 1) * 2;
             } else {
-                if (even % 2 == 1) ans = even * 2;
+                if (even % 2 == 1) ans = even * 2; // same idea here: the sum of an odd number of odd numbers is odd
                 else ans = (even - 1) * 2;
             }
         }
