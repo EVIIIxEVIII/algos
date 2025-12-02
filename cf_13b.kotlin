@@ -1,0 +1,51 @@
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.util.StringTokenizer
+import kotlin.math.min
+
+fun main() {
+    val br = BufferedReader(InputStreamReader(System.`in`))
+    val out = StringBuilder()
+
+    val t = br.readLine().trim().toInt()
+    repeat(t) {
+        var st = StringTokenizer(br.readLine())
+        val n = st.nextToken().toInt()
+        val m = st.nextToken().toInt()
+
+        st = StringTokenizer(br.readLine())
+        val a = IntArray(n)
+        for (i in 0 until n) {
+            a[i] = st.nextToken().toInt()
+        }
+
+        st = StringTokenizer(br.readLine())
+        val b = IntArray(m)
+        for (i in 0 until m) {
+            b[i] = st.nextToken().toInt()
+        }
+
+        val aSet = HashSet<Int>()
+        for (i in 0 until n) {
+            aSet.add(a[i])
+        }
+
+        var common = 0
+        for (i in 0 until m) {
+            if (aSet.contains(b[i])) {
+                common++
+            }
+        }
+
+        var ans = 0
+        if (n - common > m - common) {
+            ans++
+        }
+
+        ans += 2 * min(n - common, m - common) + 1
+        out.append(ans).append('\n')
+    }
+
+    print(out)
+}
+
