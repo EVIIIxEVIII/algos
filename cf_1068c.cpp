@@ -18,24 +18,44 @@ int main() {
             cin >> a[i];
         }
 
-        static long long primes[] = {2 , 3 , 5 , 7 , 11 , 13 , 17 , 19 , 23 , 29 , 31 , 37 , 41 , 43 , 47 , 53};
-
         sort(a.begin(), a.end());
 
-        set<int> nums;
-        for (int i = 0; i < n; ++i) {
-            nums.insert(a[i]);
+        set<int> a_set;
+        set<int> a_finished;
+
+        for(int i = 0; i < n; ++i) {
+            a_set.insert(a[i]);
         }
 
-        for (int i = 0; i < 16; ++i) {
-            int n = primes[i];
-            while (n <= k) {
-                if (nums.count(n+n)) {
-                    n += n;
+        int pos = true;
+        vector<int> ans;
+        for (int i = 0; i < n; ++i) {
+            if (a_finished.count(a[i])) continue;
+
+            int num = a[i];
+            ans.push_back(num);
+            a_finished.insert(num);
+
+            num += a[i];
+            while (num <= k) {
+                if (a_set.count(num)) {
+                    a_finished.insert(num);
+                    num += a[i];
+                } else {
+                    pos = false;
+                    break;
                 }
             }
+        }
 
-
+        if (!pos) {
+            cout << "-1" << '\n';
+        } else {
+            cout << ans.size() << '\n';
+            for (int i = 0; i < ans.size(); ++i) {
+                cout << ans[i] << ' ';
+            }
+            cout << '\n';
         }
 
     }
