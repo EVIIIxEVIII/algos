@@ -31,7 +31,7 @@ int main() {
         // n * x + y = a[n]
         //
         // x = a[0] - ny
-        //
+        // and for then find the expression for y, find y and then find x
 
         if ((a[n] - n * a[1]) % (1 - n*n)) {
             cout << "NO" << '\n';
