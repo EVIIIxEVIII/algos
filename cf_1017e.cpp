@@ -7,7 +7,7 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int n;
+        long long n;
         cin >> n;
 
         vector<int> a(n);
@@ -15,24 +15,30 @@ int main() {
             cin >> a[i];
         }
 
-        int minPopCount = INT_MAX;
+        vector<int> cnt(31);
         for (int i = 0; i < n; ++i) {
-            minPopCount = min(__builtin_popcount(a[i]), minPopCount);
-        }
-
-        int k = 0;
-        for (int i = 0; i < n; ++i) {
-            if (__builtin_popcount(a[i]) == minPopCount) {
-                k = max(k, a[i]);
+            for (int j = 0; j < 31; ++j) {
+                cnt[j] += (a[i] >> j) & 1;
             }
         }
 
-        int ans = 0;
+        long long ans = 0;
         for (int i = 0; i < n; ++i) {
-            ans += (a[i] ^ k);
+            long long localAns = 0;
+            for (int j = 0; j < 31; ++j) {
+                if ((a[i] >> j) & 1) {
+                    localAns += (1LL << j) * (n - cnt[j]);
+                } else {
+                    localAns += (1LL << j) * cnt[j];
+                }
+            }
+
+            ans = max(ans, localAns);
         }
 
         cout << ans << '\n';
     }
+
+
     return 0;
 }
