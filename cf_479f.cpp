@@ -21,6 +21,7 @@ int main() {
     unordered_map<int, int> dp;
     dp.reserve(n * 2);
     dp.max_load_factor(0.7);
+
     for (int i = 0; i < n; ++i) {
         if (!dp.count(a[i])) {
             dp[a[i]] = 1;
