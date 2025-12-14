@@ -9,8 +9,6 @@ def bugged_sort(a, b):
 
     a = list(a_sort)
     b = list(b_sort)
-    print(a)
-    print(b)
 
     pairs = [[]] * n
 
@@ -83,27 +81,12 @@ b = [2, 4, 11, 14, 6, 10, 8]
 
 bugged_sort(a, b)
 
-#t = int(input())
-#
-#for _ in range(t):
-#    n = int(input())  # Length of each array
-#    a = list(map(int, input().split()))
-#    b = list(map(int, input().split()))
-#
-#    print("YES" if bugged_sort(a, b) else "NO")
+t = int(input())
 
+for _ in range(t):
+    n = int(input())  # Length of each array
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
 
-
-#numbers = [1, 2, 3, 4, 5, 6]
-#perms = list(permutations(numbers))
-#
-#sortable = 0
-#for perm in perms:
-#    a = perm[:3]
-#    b = perm[3:]
-#    sortable += 1 if (bugged_sort(a, b)) else 0
-#
-#print(sortable)
-#print(len(perms))
-
+    print("YES" if bugged_sort(a, b) else "NO")
 
