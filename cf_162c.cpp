@@ -30,6 +30,12 @@ int main() {
         vector<long long> dp(n+1, -4e18);
         long long max1 = 0;
         long long max2 = 0;
+        // don't even need to track the color of max1 and max2,
+        // if max1 == max2, then by default they are from different colors
+        // if max1 == c_j, but max1 == max2 we don't care and just use max2,
+        // because either max1 is for the other color or max2 is for the other color
+        // otherwise if max1 != max2, and c_j == max1, we know that the value from max1 came
+        // from the ball of color c_j, that's why we use max2
 
         for (int j = 0; j < n; ++j) {
             if (max1 == dp[c[j]]) {
