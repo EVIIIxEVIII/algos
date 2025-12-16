@@ -26,6 +26,12 @@ int main() {
 
         int ans = 1;
 
+
+        // main take away from the proble:
+        // if the condition include 1 <= a_i <= n then the question
+        // "how many numbers greater/less than x are there in the array"
+        // can be answered using a cnt vector with a prefix sum on it
+
         for (int i = 1; i <= n; ++i) {
             int t = min(n, 4 * i - 1);
             int good = n - pref[t];
