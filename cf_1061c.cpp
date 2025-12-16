@@ -9,15 +9,36 @@ int main() {
     while (t--) {
         int n, k; cin >> n >> k;
 
-        vector<int> a(n);
+        vector<long long> a(n);
         for (int i = 0; i < n; ++i) {
             cin >> a[i];
         }
 
+        vector<int> cnt(n+1, 0);
+        for (int i = 0; i < n; ++i) {
+            cnt[a[i]]++;
+        }
 
-        // n / c > 4, for n, where gcd(c, n) = 1, i.e n is splitable iff n / c > 4, because c, c + (n % c), 2*c, so
-        // we can throw away c + (n % c)
-        // could use a dp like approach, but can we do better than O(n) memory tho?
+        vector<int> pref(n+1, 0);
+        for (int i = 1; i <= n; ++i) {
+            pref[i] = pref[i - 1] + cnt[i];
+        }
+
+        int ans = 1;
+
+        for (int i = 1; i <= n; ++i) {
+            int t = min(n, 4 * i - 1);
+            int good = n - pref[t];
+
+            good += cnt[i];
+
+            if (2 * i <= n) good += cnt[2 * i];
+            if (3 * i <= n) good += cnt[3 * i];
+
+            if (good >= n - k) ans = i;
+        }
+
+        cout << ans << '\n';
     }
     return 0;
 }
