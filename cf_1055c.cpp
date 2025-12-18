@@ -38,6 +38,13 @@ int main() {
             }
         }
 
+        // key idea:
+        // removing a set of 3 items will concat the reset of the items,
+        // which results in only two possible scores:
+        // either the subarray was 101010..101, in which case the first move cost
+        // 2, and all the other moves will cost 1, or it will have a duplicate value
+        // like 110101010, which results in all operations costing 1.
+
         for (int i = 1; i <= q; ++i) {
             if (
                 (prefixOnes[r[i]] - prefixOnes[l[i] - 1]) % 3 != 0 ||
