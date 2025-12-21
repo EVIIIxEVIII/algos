@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+
+        vector<int> a(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> a[i];
+        }
+
+        sort(a.begin(), a.end());
+
+        int maxMex = a[n-1]+1;
+        for (int i = 0; i < n-1; ++i) {
+            if (a[i+1] - a[i] > 1) {
+                maxMex = a[i] + 1;
+                break;
+            }
+        }
+
+        vector<int> cnt(n+1, 0);
+
+        for (int i = 0; i < n; ++i) {
+            cnt[a[i]]++;
+        }
+
+        for (int i = 0; i < n; ++i) {
+            if (cnt[a[i]] > 0) cnt[a[i]]--;
+        }
+
+        vector<int> prefix(n+1);
+        vector<int> suffix(n+1);
+
+        prefix[0] = 0;
+        suffix[n-1] = 0;
+
+        for (int i = 1; i < n; ++i) {
+            prefix[i] = prefix[i-1] + cnt[i-1];
+        }
+
+        for (int i = n-2; i >= 0; --i) {
+            suffix[i] = suffix[i+1] + cnt[i+1];
+        }
+
+        vector<int> mexMoves;
+
+        for (int i = maxMex-1; i >= 0; --i) {
+            int countToRemove = cnt[i] + 1;
+            int prevAllowed = prefix[i];
+            int suffixAllowed = suffix[i];
+
+        }
+
+    }
+    return 0;
+}

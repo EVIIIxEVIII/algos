@@ -18,7 +18,7 @@ int main() {
     primes[1] = false;
 
     long long maxPrime = 1000'001;
-    for (long long i = 2; i < maxPrime; i++) {
+    for (long long i = 2; i * i  <= maxPrime; i++) {
         for (long long j = i * i; j <= maxPrime; j += i) {
             primes[j] = false;
         }
