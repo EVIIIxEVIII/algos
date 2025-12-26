@@ -15,37 +15,40 @@ int main() {
             cin >> a[i];
         }
 
-        vector<int> floors(m);
-        for (int i = 0; i < n; ++i) {
-            floors[i] = a[i] / 100;
-        }
+        sort(a.begin(), a.end());
 
-        sort(floors.begin(), floors.end());
+        int l = 0, r = m - 1;
 
-        for (int i = 0; i < n; i++) {
-            int start = a[i];
-            int end = a[n - 1 - i];
-
-            if (i != n - i - 1) {
-                bool flag = true;
-                for (int j = 0; j < 6; ++j) {
-                    cout << (flag ? start : end) << ' ';
-                    flag = !flag;
-                }
-
-                flag = true;
-                for (int j = 0; j < 6; ++j) {
-                    cout << (flag ? end : start) << ' ';
-                    flag = !flag;
-                }
-            } else {
-                for (int j = 0; j < 6; ++j) {
-                    cout << start << ' ';
-                }
+        for (int i = n % 2; i < n; i+=2) {
+            bool flag = true;
+            for (int j = 0; j < 6; ++j) {
+                cout << (flag ? a[l] : a[r]) << ' ';
+                flag = !flag;
             }
 
             cout << '\n';
+
+            flag = true;
+            for (int j = 0; j < 6; ++j) {
+                cout << (flag ? a[r] : a[l]) << ' ';
+                flag = !flag;
+            }
+
+            cout << '\n';
+
+            l++;
+            r--;
         }
+
+        if (n % 2) {
+            bool flag = true;
+            for (int j = 0; j < 6; ++j) {
+                cout << (flag ? a[l] : a[r]) << ' ';
+                flag = !flag;
+            }
+            cout << '\n';
+        }
+
     }
 
     return 0;
