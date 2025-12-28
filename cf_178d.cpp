@@ -43,7 +43,8 @@ int main() {
             pref.push_back(pref[i-1] + primes[i]);
         }
 
-        sort(a.begin(), a.end(), greater<int>());
+        // is it even needed?
+        //sort(a.begin(), a.end(), greater<int>());
 
         long long sum = 0;
         int ans = 0;
