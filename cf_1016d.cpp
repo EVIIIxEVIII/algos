@@ -5,72 +5,52 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int t; cin >> t;
+    long long t; cin >> t;
     while (t--) {
-        int n; cin >> n;
-        int q; cin >> q;
+        long long n; cin >> n;
+        long long q; cin >> q;
 
-        vector<array<int, 2>> nic;
-        vector<int> cfn;
-
-        for (int i = 0; i < q; ++i) {
+        for (long long i = 0; i < q; ++i) {
             string op;
             cin >> op;
 
             if (op == "->") {
-                int x, y;
+                long long x, y;
                 cin >> x >> y;
-                nic.push_back({x, y});
-            } else if (op == "<-") {
-                int x;
-                cin >> x;
-                cfn.push_back(x);
-            }
-        }
 
-        for (int i = 0; i < cfn.size(); ++i) {
-            int y = 0, x = 0;
-            int msb = 31 - __builtin_clz(cfn[i]);
-            int pairs = (msb + 1) / 2;
+                x--;
+                y--;
 
-            int iter = 0;
+                long long ans = 0;
+                for (long long i = 0; i < n; ++i) {
+                    long long xb = (x >> i) & 1;
+                    long long yb = (y >> i) & 1;
 
-            while (iter < pairs) {
-                int idx = ((cfn[i] - 1) >> (iter*2)) & 3;
+                    long long v = 0;
+                    if (xb && yb) v = 1;
+                    else if (xb)  v = 2;
+                    else if (yb)  v = 3;
 
-                switch(idx) {
-                    case 0: {
-                        x += (1 << (iter - 1)) - 1;
-                        y += (1 << (iter - 1)) - 1;
-                        break;
-                    }
-
-                    case 1: {
-                        x += (1 << (iter + 1)) - 1;
-                        y += (1 << (iter + 1)) - 1;
-                        break;
-                    }
-
-
-                    case 2: {
-                        x += (1 << (iter)) - 1;
-                        y += (1 << (iter + 1)) - 1;
-                        break;
-                    }
-
-                    case 3: {
-                        x += (1 << (iter + 1)) - 1;
-                        y += (1 << (iter)) - 1;
-                        break;
-                    }
-
-                    default: break;
+                    ans |= (v << (2 * i));
                 }
 
-                iter += 1;
-            }
+                cout << ans + 1 << '\n';
+            } else if (op == "<-") {
+                long long val = 0;
+                cin >> val;
 
-            cout << y+1 << ' ' << x+1 << '\n';
+                val--;
+                long long x = 0, y = 0;
+
+                for (long long i = 0; i < n; ++i) {
+                    long long idx = (val >> (2 * i)) & 3;
+                    if (idx == 1) x |= 1 << i, y |= 1 << i;
+                    if (idx == 3) x |= 1 << i;
+                    if (idx == 2) y |= 1 << i;
+                }
+
+                cout << y + 1 << ' ' << x + 1 << '\n';
+            }
         }
     }
     return 0;
