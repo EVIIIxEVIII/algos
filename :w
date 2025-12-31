@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+
+        vector<int> a(n);
+        vector<int> b(n);
+
+        vector<int> a_map(n);
+        vector<int> b_map(n);
+
+        for (int i = 0; i < n; ++i) {
+            int x;
+            cin >> x;
+            a[i] = x;
+            a_map[x] = i;
+        }
+
+        for (int i = 0; i < n; ++i) {
+            int x;
+            cin >> x;
+            b[i] = x;
+            b_map[x] = i;
+        }
+
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (b_map[a[i]] == a_map[a[i]] && a_map[b[i]] == b_map[b[i]]) {
+                count++;
+            }
+        }
+
+        if (count < n - 1) {
+            cout << -1 << '\n';
+            continue;
+        }
+
+        vector<array<int, 2>> ans;
+        for (int i = 0; i < n; ++i) {
+            if (a[i] == b[i]) {
+                ans.push_back({i, (n+1) / 2});
+            }
+        }
+
+        for (int i = 0; i <= (n+(n%2))/2; ++i) {
+
+
+        }
+
+    }
+    return 0;
+}
