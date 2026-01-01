@@ -30,25 +30,30 @@ int main() {
             b_map[x] = i;
         }
 
-        int count = 0;
+        int valid = true;
+        int check = false;
         for (int i = 0; i < n; ++i) {
-            if (a[i] == b[a_map[b[i]]] && i != a_map[b[i]]) {
-                count++;
-            } else if (a[i] == b[i]) {
-                count++;
+            if (a[i] == b[i]) {
+                if (n % 2 == 0 || check) {
+                    valid = false;
+                    break;
+                }
+                check = true;
+            } else if (a[i] != b[a_map[b[i]]]) {
+                valid = false;
+                break;
             }
         }
 
-        if (count != n) {
+        if (!valid) {
             cout << -1 << '\n';
             continue;
         }
 
         vector<array<int, 2>> ans;
+        int mid = n / 2;
         for (int i = 0; i < n; ++i) {
-            if (a[i] == b[i]) {
-                int mid = n / 2;
-
+            if (a[i] == b[i] && i != mid) {
                 int v1 = b[i];
                 int v2 = b[mid];
 
@@ -58,7 +63,6 @@ int main() {
                 b_map[v2] = i;
 
                 ans.push_back({i + 1, mid + 1});
-
                 break;
             }
         }
@@ -70,12 +74,11 @@ int main() {
 
             ans.push_back({p + 1, j + 1});
 
-            int v1 = b[p];
-            int v2 = b[j];
+            b_map[b[p]] = j;
+            b_map[b[j]] = p;
 
+            swap(a[p], a[j]);
             swap(b[p], b[j]);
-            b_map[v1] = j;
-            b_map[v2] = p;
         }
 
         cout << ans.size() << '\n';
