@@ -57,8 +57,8 @@ int main() {
                 int v1 = b[i];
                 int v2 = b[mid];
 
-                swap(a[i], a[mid]);
                 swap(b[i], b[mid]);
+                swap(a[i], a[mid]);
                 b_map[v1] = mid;
                 b_map[v2] = i;
 
