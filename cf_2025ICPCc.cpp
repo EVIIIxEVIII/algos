@@ -11,6 +11,13 @@ int main() {
     cin >> s;
     cin >> t;
 
+    // main idea:
+    // when there are two interconnected degrees of freedom (in this case the suffix and prefix which
+    // cannot be greedily and independently optimized on their own) try to list other degrees of freedom.
+    // In this case you cannot minimize on the suffix, you cannot minimize only the prefix, you cannot minimize both
+    // of them because that would be O(n^2), but you know that the overlap will be one character. So the remaning degree
+    // of freedom are the characters. So you can loop through the characters.
+
     std::array<int, 256> map;
     map.fill(0);
 
