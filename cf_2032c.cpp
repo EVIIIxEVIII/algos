@@ -31,6 +31,7 @@ int main() {
             while (r - l >= 2 && a[l] + a[l+1] <= a[r]) {
                 l++;
             }
+
             ans = min(ans, n - (r - l+ 1));
         }
 
