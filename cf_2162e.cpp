@@ -42,18 +42,6 @@ int main() {
         // we would be good to go, but the first two elements should be chosen such that el1 != a[n] && el != a[n-1] && el2 !=
         // a[n] && el2 != a[n-1]
 
-        vector<int> ans(k);
-        if (k == n && equal) {
-            cout << k << ' ';
-            cout << k-1 << ' ';
-            for (int i = 1; i < k-1; ++i) {
-                cout << i << ' ';
-            }
-            cout << '\n';
-            break;
-        }
-
-
         list<int> free_list;
         for (int i = 1; i <= n; ++i) {
             free_list.push_back(i);
@@ -63,7 +51,7 @@ int main() {
         int not_equal_prev= a[n-2];
         int count = 0;
 
-        for (auto it = free_list.begin(); it != free_list.end() && count <= 2;) {
+        for (auto it = free_list.begin(); it != free_list.end() && count < 2;) {
             if (*it != not_equal && *it != not_equal_prev) {
                 cout << *it << ' ';
                 it = free_list.erase(it);
@@ -73,7 +61,12 @@ int main() {
             }
         }
 
-        for (int i = 3; i < k; ++i) {
+        if (k == n && equal) {
+            free_list.push_back(a[0]); // if everything is equal we wouldn't be able to have
+            // all elements such that a[n-i-1] != ans[i]; so we add one more a[0] at the end
+        }
+
+        for (int i = 2; i < k; ++i) {
             cout << free_list.front() << ' ';
             free_list.pop_front();
         }
