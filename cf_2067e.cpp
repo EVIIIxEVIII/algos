@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <queue>
 using namespace std;
 
 int main() {
@@ -17,6 +16,17 @@ int main() {
             cin >> a[i];
         }
 
+        // the main idea was to see that if we can have a minimal distance of m then we
+        // can also have a minimal distance of m - 1, and so here we can easily binary search
+        // on the value of m. Also, important idea: we can do O(n) inside a binary search, because
+        // that is O(nlog(n))
+        //
+        // it probably can be solved with a max heap, but it would be more complex code for sure...
+
+        // mid = (l + r) / 2; l = mid + 1; r = mid; finds the first point where the condition is false
+        // mid = (l + r + 1) / 2; l = mid; r = mid - 1; finds the last point where the condition is true
+        // mid = (l + r) / 2; l = mid + 1; r = mid - 1; finds the exact match
+
         a.push_back(1e9);
         a.push_back(-1e9);
 
@@ -27,8 +37,9 @@ int main() {
         int l = 0;
         int r = x+1;
 
-        while (l + 1 < r) {
-            int m = (l + r) / 2;
+        //mid = (l + r) / 2; l = mid + 1; r = mid;
+        while (l < r) {
+            int m = (l + r + 1) / 2;
 
             a[0] = -m;
             a[n-1] = x + m;
@@ -42,7 +53,7 @@ int main() {
             if (f >= k) {
                 l = m;
             } else {
-                r = m;
+                r = m - 1;
             }
         }
 

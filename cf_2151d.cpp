@@ -22,7 +22,6 @@ int main() {
         int n;
         cin >> n;
 
-
         vector<long long> fac(n+1);
         vector<long long> inv_fac(n+1);
 
