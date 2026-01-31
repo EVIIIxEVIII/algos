@@ -64,7 +64,7 @@ int main() {
             int rem = l - i - 1;
 
             if (di) {
-                ans += 1LL * di * (2*pref + di - 1) / 2 * p10[rem];
+                ans += 1LL * (di * (di - 1) / 2 + pref * di) * p10[rem];
                 if (rem > 0) {
                     ans += 45LL * rem * p10[rem - 1] * di;
                 }
