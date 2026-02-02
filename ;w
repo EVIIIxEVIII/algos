@@ -41,36 +41,38 @@ int main() {
     //
     // also I will need this: a^(p-2) = a^(-1) mod p
 
-    sort(s.begin(), s.end(), [](auto& x, auto& y) {
-        return x[0] < y[0];
-    });
+    vector<vector<array<int,4>>> by_r(m+1);
 
-    vector<long long> dp(m+1, 0);
+    for (auto& seg : s) {
+        by_r[seg[1]].push_back(seg);
+    }
+
+    vector<int> dp(m+1, 0);
     dp[0] = 1;
 
-    vector<long long> probs(m+1, 1);
-
+    vector<int> probs(m+1, 1);
+    probs[0] = 1;
     for (auto& [l, r, p, q] : s) {
         long long inv_q = mod_pow(q, M - 2, M);
         long long prob = (q - p) % M * inv_q % M; // inverse (q - p) / q = 1 - p / q
-        probs[r] = probs[r] * prob % M;
+        probs[r] *= prob * M;
     }
 
     for (int i = 1; i <= m; ++i) {
-        probs[i] = probs[i] * probs[i-1] % M;
+        probs[i] *= probs[i-1] % M;
     }
 
-    for (auto& [l, r, p, q] : s) {
-        long long inv_q = mod_pow(q % M, M - 2, M);
-        long long prob = (p % M + M) % M * inv_q % M;
+    for (int r = 1; r <= m; ++r) {
+        for (auto& [l, _, p, q] : by_r[r]) {
+            long long inv_q = mod_pow(q, M - 2, M);
+            long long prob = p % M * inv_q % M;
 
-        long long inverse_prob = (q - p) % M * inv_q % M;
+            long long inverse_prob = (q - p) % M * inv_q % M;
+            long long no_interference =
+                probs[r] * mod_pow(probs[l], M - 2, M) * mod_pow(inverse_prob, M - 2, M) % M;
 
-        long long no_interference = probs[r];
-        no_interference = no_interference * mod_pow(probs[l-1], M - 2, M) % M;
-        no_interference = no_interference * mod_pow(inverse_prob, M - 2, M) % M;
-
-        dp[r] = (dp[r] + dp[l-1] * prob % M * no_interference % M) % M;
+            dp[r] = (dp[r] + dp[l-1] * prob) % M * no_interference % M;
+        }
     }
 
     cout << dp[m] << '\n';
