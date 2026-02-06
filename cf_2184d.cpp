@@ -41,23 +41,25 @@ int main() {
         // we can go from L = 1 to L = d and then count the number of 1s that can be set by doing a
         // L choose i, from i = 0 to i = L and for i > k - L + 1 we add that value to the answer.
 
-        int d = 31 - __builtin_clz(n);
+        int d = 31 - __builtin_clz(n); // the index of the msb 0 based
 
         long long ans = 0;
 
-        for (int L = 1; L <= d; ++L) {
-            int r = k - L + 1;
+        for (int L = 1; L <= d; ++L) { // d is equal to the length of 2^d - 1
+            // here we can't use numbers > 2^d because 2^d is an upper limit
+            int r = k - L + 1; // the lower bound from the idea above
+            // here the + 1 is because we have popcnt(m) + (L-1) > k, but we can rewrite popcnt(m) as
+            // 1 + r where r is the number of 1s in L - 1 bits, so we have (r + 1) > k - L + 1 => r > k - L
+            // and r > k - L <=> r >= k - L + 1
 
-            if (r < 0) r = 0;
+            if (r < 0) r = 0; // the case when k < d so even no 1s in the bit string lead to a loss for A
 
-            if (r <= L - 1) {
-                for (int i = r; i <= L - 1; ++i) {
-                    ans += C[L - 1][i];
-                }
+            for (int i = r; i <= L - 1; ++i) { // 1 at the start is forced so we have L - 1 positions for a 1 to be placed
+                ans += C[L - 1][i];
             }
         }
 
-        int score_n = d + 1;
+        int score_n = d + 1; // for numbers where the length of the binary string > k
         if (score_n > k) {
             ans += 1;
         }
