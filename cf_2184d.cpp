@@ -6,7 +6,6 @@ int main() {
     cin.tie(nullptr);
 
     long long C[35][35];
-
     for (int n = 0; n <= 34; ++n) {
         C[n][0] = C[n][n] = 1;
         for (int k = 1; k < n; ++k) {
