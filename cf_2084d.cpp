@@ -29,8 +29,6 @@ int main() {
         // in the binary search we have a ttttttffffff situation, so we need to find the last x such that floor(n / x) > m, this
         // is a m = (l + r + 1) / 2, l = m, r = m - 1; type of binary search
 
-        //vector<int> ans(n);
-
         int l = 1;
         int r = n;
 
