@@ -1,0 +1,16 @@
+yeah, and I also know binary exponentiation by hearth:
+long long pow_(long long a, long long b) {
+    long long temp = a;
+    long long ans = 1;
+
+    while (b > 0) {
+        if (b & 1) {
+            ans *= temp;
+        }
+
+        temp *= temp;
+        b >>= 1;
+    }
+
+    return ans;
+}
