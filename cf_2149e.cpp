@@ -84,8 +84,8 @@ int main() {
             // the answer is the number of elements in the intersection of:
             // [x-1, y-1] intersection [i + l - 1, i + r - 1]
 
-            int left = max(x-1, i + l - 1);
-            int right = min(y-1, i + r - 1);
+            int left = max(x - 1, i + l - 1);
+            int right = min(y - 1, i + r - 1);
 
             ans += max(0, right - left + 1);
         }
