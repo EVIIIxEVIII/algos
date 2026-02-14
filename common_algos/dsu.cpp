@@ -24,7 +24,4 @@ int main() {
     int n; cin >> n;
     vector<int> parent(n);
     vector<int> size(n);
-
-
-
 }

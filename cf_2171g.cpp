@@ -3,7 +3,6 @@ using namespace std;
 
 constexpr long long prime = 1e6 + 3;
 
-
 long long pow_(long long a, long long b) {
     long long res = 1;
     while (b > 0) {
@@ -107,7 +106,7 @@ int main() {
         //
         // notice that with x0 we can use y >> p, because during p doublings our number will be shifted left p times.
         // thus using this information we are guaranteed that x3 is always 0, so we don't have to worry about it.
-        // Also all next x1..xp are equal to 1.
+        // Also all next x1..xp are equal to 1 or 0.
 
         vector<long long> bucket(p_max+1, 0);
         vector<vector<long long>> per_i_bucket(n, vector<long long>(p_max+1));
