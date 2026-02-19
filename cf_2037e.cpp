@@ -20,29 +20,26 @@ int main() {
         // constructed with score > v, then for every i binary search for a j such that prefix[i] + prefix[j] = m
         // and use a prefix sum on the array to compute the answer.
 
-        vector<int> prefix(n);
-        vector<int> suffix(n);
+        vector<int> prefix(n+1, 0);
+        vector<int> suffix(n+1, 0);
         vector<long long> prefix_sum(n+1);
 
-        prefix[0] = a[0] >= v ? 1 : 0;
-
-        int current_pref = a[0] >= v ? 0 : a[0];
-        for (int i = 1; i < n; ++i) {
+        int current_pref = 0;
+        for (int i = 0; i < n; ++i) {
+            prefix[i+1] = prefix[i];
             current_pref += a[i];
-            prefix[i] = prefix[i-1];
+
             if (current_pref >= v) {
-                prefix[i]++;
+                prefix[i + 1]++;
                 current_pref = 0;
             }
         }
 
-        suffix[n-1] = a[n-1] >= v ? 1 : 0;
-        int current_suf = a[n-1] >= v ? 0 : a[n-1];
-
-        for (int i = n - 2; i >= 0; --i) {
+        int current_suf = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            suffix[i] = suffix[i + 1];
             current_suf += a[i];
 
-            suffix[i] = suffix[i+1];
             if (current_suf >= v) {
                 suffix[i]++;
                 current_suf = 0;
@@ -55,22 +52,19 @@ int main() {
         }
 
         long long ans = -1;
-        for (int i = 0; i < n; ++i) {
-            int left = i > 0 ? prefix[i - 1] : 0;
-            int target = m - left;
-            if (target < 0) continue;
+        for (int l = 0, r = 0; l <= n; ++l) {
 
-            auto it = upper_bound(suffix.begin() + i, suffix.end(), target, greater<int>{});
-            int j = it - suffix.begin() - 1;
-            if (target == 0) j = n;
+            while (r <= n && suffix[r] + prefix[l] >= m) {
+                r++;
+            }
+            r--;
 
-            if (j >= i) {
-                ans = max(ans, prefix_sum[j] - prefix_sum[i]);
+            if (r >= 0 && prefix[l] + suffix[r] >= m) {
+                ans = max(ans, prefix_sum[r] - prefix_sum[l]);
             }
         }
 
         cout << ans << '\n';
-
     }
 
     return 0;
