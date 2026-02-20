@@ -26,6 +26,13 @@ int main() {
         //
         // idea: mb a prefix sum where prefix[j] - prefix[i] would be the cost to
         // make the block [i, j] equal?
+        //
+        // main takeaway: when you have an L1 deviation |a_i - a_j| in an array a the optimal a_k in the array
+        // which minimizes the sum of the L1 deviations is the median of the array a. Also splitting an array of size >= 4
+        // into blocks of size 2 or 3 never increases the total L1 deviation of the sum of these subarrays.
+        // Because for all pairs we have a_1 and a_2 and if we sort then ascending and do |a_1 - a_2| we obtain
+        // some L1 metric which we would have spend anyways in the bigger array, the same can be proven for a subarray of
+        // size 3.
 
         auto cost2 = [](int a, int b) {
             return abs(a - b) * 1LL;
