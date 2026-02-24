@@ -12,7 +12,6 @@ int main() {
 
         string x;
         cin >> x;
-        // idea: because of the algorithm there can be at most 2 same consecutive characters aa or bb.
 
         if (n % 2 == 1 && x[0] == 'b') {
             cout << "NO" << '\n';
