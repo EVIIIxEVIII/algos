@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+
+        vector<int> a(n*2);
+        vector<int> count(2*n + 1, 0);
+
+        for (int i = 0; i < 2*n; ++i) {
+            cin >> a[i];
+            count[a[i]]++;
+        }
+
+        int even = 0;
+        int odd = 0;
+
+        for (int i = 1; i <= 2*n; ++i) {
+            if (count[i] == 0) continue;
+
+            if (count[i] % 2 == 0) {
+                even++;
+            } else {
+                odd++;
+            }
+        }
+
+        if (odd > 0) {
+            cout << odd + 2 * even << '\n';
+        } else {
+            if (n % 2 == 1) {
+                if (even % 2 == 0) {
+                    cout << 2*(even - 1) << '\n';
+                } else {
+                    cout << 2*even << '\n';
+                }
+            } else {
+                if (even % 2 == 0) {
+                    cout << 2*even << '\n';
+                } else {
+                    cout << 2*(even-1) << '\n';
+                }
+            }
+        }
+    }
+    return 0;
+}
