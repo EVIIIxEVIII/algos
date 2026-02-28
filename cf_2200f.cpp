@@ -3,7 +3,6 @@
 #include <climits>
 using namespace std;
 
-
 void solve();
 
 int main() {
@@ -41,45 +40,46 @@ void solve() {
         part_map[p[i].second].push_back(p[i].first);
     }
 
-    vector<tuple<long long, int, int>> dp(n+2, {0, 0, 0});
-    vector<long long> used;
+    multiset<long long> used;
+    long long used_pref = 0;
+    vector<long long> pref(n+1);
 
     long long ans = 0;
     for (int i = n; i >= 0; --i) {
+        while (used.size() > i + 1) {
+            used_pref -= *used.begin();
+            used.erase(used.begin());
+        }
+
         for (auto x : part_map[i]) {
-            used.push_back(x);
+            if (used.size() < i + 1) {
+                used.insert(x);
+                used_pref += x;
+            } else if (*used.begin() < x) {
+                used_pref -= *used.begin();
+                used.erase(used.begin());
+                used.insert(x);
+                used_pref += x;
+            }
         }
 
-        sort(used.begin(), used.end(), greater<long long>());
-
-        long long min_en = LLONG_MAX;
-        int used_part = min(used.size(), size_t(i));
-        long long sum = 0;
-
-        if (used_part != 0) {
-            min_en = used[0];
+        ans = max(ans, used_pref);
+        if (used.size() <= i) {
+            pref[i] = used_pref;
+        } else {
+            pref[i] = used_pref - *used.begin();
         }
+    }
 
-        for (int j = 0; j < used_part; ++j) {
-            sum += used[j];
-            min_en = min(min_en, used[j]);
-        }
-
-        ans = max(ans, sum);
-        dp[i] = { min_en, sum, used_part };
+    for (int i = 1; i <= n; ++i) {
+        pref[i] = max(pref[i-1], pref[i]);
     }
 
     for (int i = 1; i <= m; ++i) {
         auto [ x, y ] = s[i];
-        auto [ min_en, sum, used_part ] = dp[y];
+        auto best_en_at_y = pref[y];
 
-        long long local_ans = ans;
-        if (used_part <= y + 1) {
-            local_ans = max(local_ans, 1LL * sum + x);
-        } else {
-            local_ans = max(local_ans, (sum - min_en) + x);
-        }
-
+        long long local_ans = max(ans, best_en_at_y + x);
         cout << local_ans << ' ';
     }
 
