@@ -35,5 +35,6 @@ void solve() {
         }
     }
 
+    //cout << (s + (m - 1)) / m << '\n';
     cout << ans << '\n';
 }
