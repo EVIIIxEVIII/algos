@@ -1,0 +1,48 @@
+#include <algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve();
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+
+void solve() {
+    int n; cin >> n;
+    vector<vector<int>> a(2, vector<int>(n));
+
+    for (int i = 0; i < n; ++i) {
+        cin >> a[0][i];
+    }
+    for (int i = 0; i < n; ++i) {
+        cin >> a[1][i];
+    }
+
+
+    long long ans = 0;
+
+    // we can use any l from 1, to l_upper_bound
+    int l_upper_bound = min(a[0][0], a[1][n-1]);
+    for (int i = 0; i < n; ++i) {
+        l_upper_bound = min(l_upper_bound, max(a[0][i], a[1][i]));
+    }
+
+    int r_lower_bound = max(a[0][0], a[1][n-1]);
+    for (int i = 0; i < n; ++i) {
+        r_lower_bound = max(r_lower_bound, min(a[0][i], a[1][i]));
+    }
+
+    cout << l_upper_bound << '\n';
+    cout << r_lower_bound << '\n';
+    cout << "-----" << '\n';
+
+    //cout << l_upper_bound * (2*n - r_lower_bound + 1) << '\n';
+
+}
