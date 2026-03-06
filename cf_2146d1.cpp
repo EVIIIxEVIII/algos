@@ -18,19 +18,20 @@ void solve() {
     cin >> l >> r;
 
     long long n = r - l + 1;
+
     cout << n * r << '\n';
 
     vector<uint32_t> ans(n, 0);
-    for (uint32_t i = r; ; --i) {
-        if (i-l == 0) break;
-        if (ans[i-l] != 0) continue;
+    for (uint32_t l = r; ; --l) {
+        if (l == 0) break;
+        if (ans[l] != 0) continue;
 
-        uint32_t mask = ~i;
-        uint32_t k = 31 - countl_zero(i);
+        uint32_t mask = ~l;
+        uint32_t k = 31 - countl_zero(l);
         mask &= ((1u << k) - 1);
 
-        ans[mask-l] = i;
-        ans[i-l] = mask;
+        ans[mask] = l;
+        ans[l] = mask;
     }
 
     for (int i = 0; i < n; ++i) {
