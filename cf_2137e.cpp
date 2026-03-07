@@ -14,86 +14,64 @@ int main() {
 }
 
 void solve() {
-    // idea: before the MEX point you a_i for the sum after the MEX point
-    // use the MEX of the whole array.
-
     int n, k;
     cin >> n >> k;
+
+    // main take away: if all possible inputs collapase into a cyclical pattern after some n moves it
+    // makes sense to simulate the problem for n + 2 moves and use the previous and the previous previous to
+    // get the answer.
 
     vector<int> a(n);
     for (int i = 0; i < n; ++i) {
         cin >> a[i];
     }
 
-    sort(a.begin(), a.end());
-
-    int mex = -1;
-    int c1 = -1;
-    int c2 = -1;
-    int count = 0;
-
-    int ans = 0;
-    for (int i = 1; i < n; ++i) {
-        if (a[i] == a[i-1] || a[i-1] + 1 != a[i]) {
-            break;
-        }
-        ans += a[i];
-    }
-
-    for (int i = 1; i < n;) {
-        if (a[i] != a[i-1] && a[i] != a[i-1] + 1) {
-            count += n - i;
-            mex = a[i-1] + 1;
-            break;
+    auto step = [&]() {
+        int mex = 0;
+        sort(a.begin(), a.end());
+        vector<int> cnt(n+1);
+        for (int i = 0; i < n; ++i) {
+            cnt[a[i]]++;
         }
 
-        if (a[i] == a[i-1]) {
-            count++;
-        } else {
-            i++; continue;
-        }
-
-        while (i < n && a[i] == a[i-1]) {
-            if (c1 == -1) {
-                c1 = a[i];
-            } else if (c2 == -1) {
-                c2 = a[i];
+        for (int i = 0; i <= n; ++i) {
+            if (cnt[i] == 0) {
+                mex = i; break;
             }
-
-            count++;
-            i++;
         }
-    }
 
-    if (mex == -1) {
-        mex = a.back() + 1;
-    }
+        for (int i = 0; i < n; ++i) {
+            if (cnt[a[i]] > 1 || a[i] > mex) {
+                a[i] = mex;
+            }
+        }
+    };
 
-    if (a[0] != 0) {
-        mex = 0;
-        ans = 0;
-        count = n;
-        c1 = -1;
-        c2 = -1;
-    }
-
-    if (count == 1) {
-        cout << ans + mex << '\n';
+    step();
+    if (k == 1) {
+        cout << std::accumulate(a.begin(), a.end(), 0LL) << '\n';
         return;
     }
 
-    if (c1 == -1 && c2 == -1) {
-        ans += (count * (mex + (k % 2 == 0)));
-    } else if (c1 != -1 && c2 != -1) {
-        if (k == 1) {
-            ans += count * mex;
-        } else {
-            k--;
-            ans += (count * (k % 2 ? c2 : c1));
-        }
-    } else if (c1 != -1) {
-        ans += (count * (k % 2 ? mex : c1));
+    step();
+    long long prev = std::accumulate(a.begin(), a.end(), 0LL);
+    if (k == 2) {
+        cout << prev << '\n';
+        return;
     }
 
-    cout << ans << '\n';
+    step();
+    long long curr = std::accumulate(a.begin(), a.end(), 0LL);
+    if (k == 3) {
+        cout << curr << '\n';
+        return;
+    }
+
+    k -= 3;
+
+    if (k % 2 == 1) {
+        cout << prev << '\n';
+    } else {
+        cout << curr << '\n';
+    }
 }

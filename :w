@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve();
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    sort(a.begin(), a.end());
+    vector<int> cnt(n+1);
+
+    for (int i = 0; i < n; ++i) {
+        cnt[a[i]]++;
+    }
+
+    int d1 = -1;
+    int d2 = -1;
+    int mex = -1;
+    int count = 0;
+
+    long long ans = 0;
+
+    for (int i = 0; i <= n; ++i) {
+        if (cnt[i] == 0 && mex == -1) {
+            mex = i;
+        }
+
+        if (cnt[i] > 1) {
+            if (d1 == -1) d1 = i;
+            else if (d2 == -1) d2 = i;
+        }
+
+        if (mex != -1 || d1 != -1 || d2 != -1) {
+            count += cnt[i];
+        }
+    }
+
+    for (int i = 0; i <= n && a[i] != 0; ++i) {
+        ans += i * (cnt[i]);
+    }
+    cout << ans << '\n';
+
+    if (count == 1) {
+        cout << count + mex << '\n';
+        return;
+    }
+
+    if (d1 != -1 && d2 != -1) {
+
+
+    }
+
+}
