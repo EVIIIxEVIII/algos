@@ -14,7 +14,7 @@ int main() {
 }
 
 void solve() {
-    int l, r;
+    long long l, r;
     cin >> l >> r;
 
     int num = l;
@@ -28,31 +28,27 @@ void solve() {
     }
     exp/=10;
 
+    int diff_n = 0;
+    int diff = r - l;
+    while (diff > 0) {
+        diff /= 10;
+        diff_n++;
+    }
+
+    cout << r - l << '\n';
+    cout << n - diff_n << '\n';
+    cout << diff << '\n';
+
     long long ans = 0;
 
-    while (exp > 0) {
+    for (int i = 0; i <= n - diff_n; ++i) {
         int dl = (l / exp) % 10;
         int dr = (r / exp) % 10;
 
         if (dl == dr) {
             ans += 2;
-        } else {
-            if (dl + 1 < dr) break;
-
-            ans += 1;
-            exp /= 10;
-
-            while (exp > 0) {
-                dl = (l / exp) % 10;
-                dr = (r / exp) % 10;
-
-                if (dl == 9 && dr == 0) ans++;
-                else break;
-
-                exp /= 10;
-            }
-
-            break;
+        } else if (abs(dl - dr) == 1 || abs(dl - dr) == 9) {
+            ans++;
         }
 
         exp /= 10;
