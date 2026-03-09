@@ -35,7 +35,7 @@ void solve() {
 
         if (dl == dr) {
             ans += 2;
-        } else if (abs(dl - dr) == 1 || (max(dl, dr) == 9 && min(dl, dr) == 0)) {
+        } else if (abs(dl - dr) == 1) {
             ans++;
         } else break;
 
