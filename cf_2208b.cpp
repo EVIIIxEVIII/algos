@@ -14,37 +14,29 @@ int main() {
 }
 
 void solve() {
-    long long n, k, p, m;
+    int n, k, p, m;
     cin >> n >> k >> p >> m;
     p--;
 
-    vector<long long> a(n);
-    for (long long i = 0; i < n; ++i) {
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
         cin >> a[i];
     }
 
     // the k - 1 minimum cards will be played
 
-    long long ans = 0;
-    long long init = a[p];
+    int ans = 0;
 
-    multiset<long long> first_k;
-    for (long long i = 0; i < k; ++i) {
-        first_k.insert(a[i]);
+    vector<int> l;
+    for (int i = 0; i < p; ++i) {
+        l.push_back(a[i]);
     }
 
-    long long next = k;
-    long long rem = p - (k - 1);
+    sort(l.begin(), l.end());
 
-    for (long long r = 0; r < rem; ++r) {
-        auto it = first_k.begin();
-
-        init += *it;
-        first_k.erase(it);
-
-        if (next < n) {
-            first_k.insert(a[next++]);
-        }
+    int init = a[p];
+    for (int i = 0; i < p - k + 1; ++i) {
+        init += l[i];
     }
 
     if (init <= m) {
@@ -55,13 +47,11 @@ void solve() {
         return;
     }
 
-    long long cycle = a[p];
+    int cycle = a[p];
     a.erase(a.begin() + p);
-    n--;
-
     sort(a.begin(), a.end());
 
-    for (long long i = 0; i <= n - k; ++i) {
+    for (int i = 0; i < n - k; ++i) {
         cycle += a[i];
     }
 
