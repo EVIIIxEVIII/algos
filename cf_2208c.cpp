@@ -24,9 +24,10 @@ void solve() {
     for (int i = 0; i < n; ++i) {
         cin >> c[i] >> p[i];
     }
+    c.push_back(0);
 
-    double ans = c[n - 1];
-    for (int i = n - 2; i >= 0; --i) {
+    double ans = c[n];
+    for (int i = n - 1; i >= 0; --i) {
         ans = max(ans, c[i] + ans * (1.0 - p[i] / 100.0));
     }
 

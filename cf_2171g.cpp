@@ -147,3 +147,9 @@ int main() {
     }
     return 0;
 }
+
+
+// n -> starts, k - 1 -> bars, stars_1 = a, stars_2 = b
+//
+// n + k - 1 choose k - 1 times n choose a
+
