@@ -84,5 +84,4 @@ void solve() {
     };
 
     cout << n - max_depth(max_depth, root, 1) << '\n';
-
 }
