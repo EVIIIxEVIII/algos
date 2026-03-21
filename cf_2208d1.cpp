@@ -40,6 +40,12 @@ void solve() {
     // layer of the DAG. Thus we can conclude that there is a direct reachability from the nodes in L2 to the nodes in L1.
     // By induction we can traverse the DAG bottom up from L1 to Ln;
 
+    for (int i = 1; i <= n; ++i) {
+        sort(g[i].begin(), g[i].end(), [&](int u, int v) {
+            return g[u].size() > g[v].size();
+        });
+    }
+
     vector<pair<int, int>> ans;
     for (int i = 1; i <= n; ++i) {
         vector<bool> contains(n+1, false);
@@ -50,18 +56,17 @@ void solve() {
         int sz = g[i].size();
         int j = 0;
         int seen_vals = 0;
+        int edge_idx = 0;
 
         while (sz - seen_vals != 1 && j < sz) {
             int edge = 0;
-            int max_reach = 0;
 
-            for (auto& v : g[i]) {
+            for (int j = edge_idx; j < g[i].size(); ++j) {
+                int v = g[i][j];
                 if (v == i || !contains[v]) continue;
-
-                if (g[v].size() > max_reach) {
-                    max_reach = g[v].size();
-                    edge = v;
-                }
+                edge = v;
+                edge_idx = j + 1;
+                break;
             }
 
             ans.push_back({ i, edge });
