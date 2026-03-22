@@ -20,6 +20,11 @@ void solve() {
     vector<pair<long long, int>> f;
     vector<pair<long long, int>> s;
 
+    // key takeaway: whenever there is a sum of the form n/a[i], this should instantly trigger a square root
+    // decomposition idea, because the numbers a[i] can be split into two separate partitions:
+    // a[i] < sqrt(n) and a[i] >= sqrt(n). For a[i] >= sqrt(n) we have the sum n/a[i] => n^2/sqrt(n) => n*sqrt(n).
+    // And for the other part, because we only need to check sqrt(n) elements we have at most n*sqrt(n) time complexity.
+
     for (int i = 0; i < n; ++i) {
         long long val; cin >> val;
 
