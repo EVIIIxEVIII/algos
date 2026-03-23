@@ -55,7 +55,6 @@ void solve() {
     }
 
     sort(left.begin(), left.end());
-
     vector<int> per_row(n, -1);
     int max_r = -1;
     for (auto& [i, j] : left) {
