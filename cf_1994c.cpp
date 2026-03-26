@@ -14,7 +14,7 @@ int main() {
 }
 
 void solve() {
-    int n, x;
+    long long n, x;
     cin >> n >> x;
 
     vector<int> a(n);
@@ -29,5 +29,26 @@ void solve() {
     // O(n^2) solution: for each l compute a prefix sum from l to n - 1, then
     // count the number of number in the prefix sum such that p[i] %
 
+    vector<int> dp(n+1, 0);
+    int r = 0;
+    long long sum = 0;
+    long long ans = 0;
 
+    for (int l = 0; l < n && r < n;) {
+        while (r < n && sum <= x) {
+            sum += a[r];
+            r++;
+        }
+
+        while (l < n && r <= n && sum > x) {
+            dp[r] += dp[l] + 1;
+            ans += dp[l] + 1;
+            sum -= a[l];
+            l++;
+        }
+    }
+
+    long long output = n * (n + 1LL) / 2LL - ans;
+    // dp[r] = dp[r-1] + dp[l-1]
+    cout << output << '\n';
 }
