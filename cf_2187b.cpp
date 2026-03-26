@@ -49,31 +49,40 @@ void solve() {
         return;
     }
 
-    int msb_abmiguous = ambiguous.back();
+    int b = ambiguous.back();
 
-    int p_msb_set = (p | (1 << msb_abmiguous));
-    int q_msb_exc = (~(p & ((1 << msb_abmiguous) - 1)) & (q | ((1 << msb_abmiguous) - 1)));
+    int p_msb_set = (p | (1 << b));
+    int q_msb_exc = (~(p & ((1 << b) - 1)) & (q | ((1 << b) - 1)));
 
-    int q_msb_set = (q | (1 << msb_abmiguous));
-    int p_msb_exc = (~(q & ((1 << msb_abmiguous) - 1)) & (p | ((1 << msb_abmiguous) - 1)));
+    int q_msb_set = (q | (1 << b));
+    int p_msb_exc = (~(q & ((1 << b) - 1)) & (p | ((1 << b) - 1)));
 
     int variant1 = abs(x - p_msb_set) + abs(y - q_msb_exc);
     int variant2 = abs(x - p_msb_exc) + abs(y - q_msb_set);
 
-    int x_nxt_pw_2 = 1u << (32 - __builtin_clz(x));
-    int variant3 = abs(x - x_nxt_pw_2);
-    if (((~x_nxt_pw_2) & y) != y) {
-        int new_y = y & (~x_nxt_pw_2);
-        new_y |= (x_nxt_pw_2 - 1);
-        variant3 += abs(y - new_y);
+    int variant3 = 0;
+    int v3x = 0;
+    int v3y = y;
+    for (int i = b; i < 32; ++i) {
+        int x_b = (x >> i) & 1;
+        int y_b = (y >> i) & 1;
+
+        if (x_b || y_b) continue;
+        v3x = (x | (1 << i)) & ~((1 << i) - 1);
+        variant3 = abs(x - v3x);
+        break;
     }
 
-    int y_nxt_pw_2 = 1u << (32 - __builtin_clz(y));
-    int variant4 = abs(y - y_nxt_pw_2);
-    if (((~y_nxt_pw_2) & x) != x) {
-        int new_x = x & (~y_nxt_pw_2);
-        new_x |= (y_nxt_pw_2 - 1);
-        variant4 += abs(x - new_x);
+    int variant4 = 0;
+    int v4x = x;
+    int v4y = 0;
+    for (int i = b; i < 32; ++i) {
+        int x_b = (x >> i) & 1;
+        int y_b = (y >> i) & 1;
+        if (x_b || y_b) continue;
+        v4y = (y | (1 << i)) & ~((1 << i) - 1);
+        variant4 = abs(y - v4y);
+        break;
     }
 
     int min_var = min({ variant1, variant2, variant3, variant4 });
@@ -83,18 +92,8 @@ void solve() {
     } else if (min_var == variant2) {
         cout << p_msb_exc << ' ' << q_msb_set << '\n';
     } else if (min_var == variant3) {
-        int actual_y = y;
-        if (((~x_nxt_pw_2) & y) != y) {
-            actual_y = y & (~x_nxt_pw_2);
-            actual_y |= (x_nxt_pw_2 - 1);
-        }
-        cout << x_nxt_pw_2 << ' ' << actual_y << '\n';
+        cout << v3x << ' ' << v3y << '\n';
     } else {
-        int actual_x = x;
-        if (((~y_nxt_pw_2) & x) != x) {
-            actual_x = x & (~y_nxt_pw_2);
-            actual_x |= (y_nxt_pw_2 - 1);
-        }
-        cout << actual_x << ' ' << y_nxt_pw_2 << '\n';
+        cout << v4x << ' ' << v4y << '\n';
     }
 }
