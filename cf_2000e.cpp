@@ -24,27 +24,32 @@ void solve() {
     }
 
     sort(a.begin(), a.end(), greater<int>());
-
-    long long seen = 0;
     long long ans = 0;
-    int j = 0;
 
-    for (int i = 1; i <= k; ++i) {
-        if (2 * (k - i) >= min(m, n)) continue;
+    map<long long, long long> multipliers;
 
-        long long multiplier = k * (k - i + 1);
-        long long count = (m - 2*(k - i)) * (n - 2*(k - i)) - seen - (i == k ? 4 : 0);
-        seen += count;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            int rows = min(i, n - k) - max(i - k + 1, 0) + 1;
+            int cols = min(j, m - k) - max(j - k + 1, 0) + 1;
 
-        while (count > 0 && j < w) {
-            ans += multiplier * a[j];
-            count--;
-            j++;
+            long long multiplier = rows * cols;
+            if (multipliers.find(multiplier) != multipliers.end()) {
+                multipliers[multiplier]++;
+            } else {
+                multipliers[multiplier] = 1;
+            }
         }
     }
 
-    for (int i = j; i < w; ++i) {
-        ans += a[i];
+    int j = 0;
+    for (auto it = multipliers.rbegin(); it != multipliers.rend(); ++it) {
+        auto [m, c] = *it;
+        while (j < w && c > 0) {
+            ans += a[j] * m;
+            j++;
+            c--;
+        }
     }
 
     cout << ans << '\n';
