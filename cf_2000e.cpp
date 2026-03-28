@@ -34,11 +34,7 @@ void solve() {
             int cols = min(j, m - k) - max(j - k + 1, 0) + 1;
 
             long long multiplier = rows * cols;
-            if (multipliers.find(multiplier) != multipliers.end()) {
-                multipliers[multiplier]++;
-            } else {
-                multipliers[multiplier] = 1;
-            }
+            multipliers[multiplier]++;
         }
     }
 
