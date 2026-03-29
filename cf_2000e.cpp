@@ -27,7 +27,6 @@ void solve() {
     long long ans = 0;
 
     map<long long, long long> multipliers;
-
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
             int rows = min(i, n - k) - max(i - k + 1, 0) + 1;
