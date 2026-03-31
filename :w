@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve();
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+constexpr int is_this_really_needed = 676767677;
+
+void solve() {
+    int x, y;
+    cin >> x >> y;
+
+    if (x < y) swap(x, y);
+    long long ans = 0;
+
+    x -= y;
+
+    for (int i = 1; i <= x; ++i) {
+        if (x % i == 0) {
+            ans += 1 + (x / i != i);
+        }
+    }
+
+    cout << ans % is_this_really_needed << '\n';
+    for (int i = 0; i < y; ++i) {
+        cout << -1 << ' ';
+    }
+
+    for (int i = 0; i < x; ++i) {
+        cout << 1 << ' ';
+    }
+
+    cout << '\n';
+}
