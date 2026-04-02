@@ -52,25 +52,30 @@ void solve() {
         cout << '\n'; return;
     }
 
+
     vector<long long> prefix(even.size() + 1);
     prefix[0] = 0;
     for (long long i = 1; i <= even.size(); ++i) {
         prefix[i] = prefix[i-1] + even[i-1];
     }
 
-    for (long long k = 1; k <= n; ++k) {
-        long long need_odd = max(1LL, k - (long long)even.size());
-        if (need_odd % 2 == 0) {
-            ++need_odd;
-        }
+    for (long long i = 0; i <= even.size(); ++i) {
+        cout << odd.front() + prefix[i] << ' ';
+    }
 
-        if (need_odd > odd.size()) {
+    for (long long i = 1; i <= (n - (long long)even.size() - 1); ++i) {
+        long long need = (i % 2) + i + 1;
+
+        if (need > odd.size()) {
             cout << 0 << ' ';
         } else {
-            long long use_even = k - need_odd;
-            cout << odd.front() + prefix[use_even] << ' ';
+            if (i % 2) {
+                cout << odd.front() + prefix[prefix.size()-2] << ' ';
+            } else {
+                cout << odd.front() + prefix[prefix.size()-1] << ' ';
+            }
         }
-    }
+   }
 
     cout << '\n';
 }
