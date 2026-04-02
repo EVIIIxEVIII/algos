@@ -32,19 +32,31 @@ void solve() {
         cin >> c[i];
     }
 
-    int is = 0;
-    int ks = 0;
-
-    for (int j = 0; j < n; ++j) {
+    auto check = [&](int offset, vector<int>& arr, auto&& cmp) -> bool {
         for (int i = 0; i < n; ++i) {
-            if () {
-
+            if (!cmp(arr[(i+offset)%n], b[i])) {
+                return false;
             }
         }
 
-        for (int k = 0; k < n; ++k) {
+        return true;
+    };
 
+    long long ans = 0;
+    int is = 0;
+    int ks = 0;
+
+    for (int offset = 0; offset < n; ++offset) {
+        if (check(offset, a, less<int>())) {
+            is++;
         }
     }
 
+    for (int offset = 0; offset < n; ++offset) {
+        if (check(offset, c, greater<int>())) {
+            ks++;
+        }
+    }
+
+    cout << 1LL * n * is * ks << '\n';
 }
