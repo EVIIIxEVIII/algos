@@ -14,5 +14,17 @@ int main() {
 }
 
 void solve() {
+    int s, k, m;
+    cin >> s >> k >> m;
 
+    if (s <= k) {
+        cout << max(0, s - (m%k)) << '\n';
+        return;
+    }
+
+    if ((m / k) % 2 == 1) {
+        cout << max(0, k - (m%k)) << '\n';
+    } else {
+        cout << max(0, s - (m%k)) << '\n';
+    }
 }
