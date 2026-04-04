@@ -64,28 +64,13 @@ void solve2() {
 
     long long curr = 0;
     long long ans = 0;
-
-    int cur_l = 0;
-    int best_l = -1;
-    int best_r = -1;
-
     for (int i = 0; i < n; ++i) {
-        if (b[i] > curr + b[i]) {
-            cur_l = i;
-            curr = b[i];
-        } else {
-            curr += b[i];
-        }
-
-        if (curr > ans) {
-            ans = curr;
-            best_l = cur_l;
-            best_r = i;
-        }
+        curr = max(b[i], curr + b[i]);
+        ans = max(ans, curr);
     }
 
-    for (int i = 0; i < n; ++i) {
-        ans += a[i];
+    for (long long val : a) {
+        ans += val;
     }
 
     cout << ans << '\n';
