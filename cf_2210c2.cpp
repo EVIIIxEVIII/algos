@@ -39,7 +39,6 @@ void solve() {
     }
 
     vector<int> base(n);
-
     vector<vector<int>> opt(n, vector<int>());
     for (int i = 0; i < n; ++i) {
         int left = i > 0 ? gcd(a[i], a[i-1]) : 1;
@@ -53,6 +52,7 @@ void solve() {
     for (int i = 0; i < n; ++i) {
         int left = i > 0 ? base[i-1] / gcd(base[i], base[i-1]) : 1;
         int right = i < n - 1 ? base[i+1] / gcd(base[i], base[i+1]) : 1;
+
         for (int p : primes) {
             if (left % p != 0 && right % p != 0 && 1LL * base[i] * p <= b[i]) {
                 opt[i].push_back(base[i] * p);
