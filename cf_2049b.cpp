@@ -31,20 +31,12 @@ void solve() {
         cnt_p += c == 'p';
     }
 
-    if (cnt_s == 0 || cnt_p == 0) {
-        cout << "YES" << '\n';
-    } else if (cnt_s > 1 && cnt_p > 1) {
+    cnt_s -= s[0] == 's';
+    cnt_p -= s[n-1] == 'p';
+
+    if (cnt_s >= 1 && cnt_p >= 1) {
         cout << "NO" << '\n';
     } else {
-        bool ans = false;
-
-        if (cnt_p == 1) {
-            ans = (s[n-1] == 'p' || s[0] == 'p');
-        }
-        if (cnt_s == 1) {
-            ans = (s[n-1] == 's' || s[0] == 's');
-        }
-
-        cout << (ans ? "YES" : "NO") << '\n';
+        cout << "YES" << '\n';
     }
 }
