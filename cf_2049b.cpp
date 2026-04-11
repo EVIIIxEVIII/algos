@@ -16,7 +16,6 @@ int main() {
 void solve() {
     int n; cin >> n;
     string s; cin >> s;
-
     // 1 2 3 4 5 -> if all p
     // 5 4 3 2 1 -> if all s
 
