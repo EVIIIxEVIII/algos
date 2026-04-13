@@ -41,7 +41,6 @@ void solve() {
     int l = 0, r = n-1;
     while (l < r) {
         int m = l + (r - l + 1) / 2;
-
         if (check(m) > k) {
             r = m - 1;
         } else {
@@ -60,9 +59,6 @@ void solve() {
 
     min_cards_cnt -= rem;
 
-    long long nr_of_cards = min_cards * min_cards_cnt + (min_cards + 1) * (n - min_cards_cnt);
-    long long window_size = n;
-    long long nr_of_windows = nr_of_cards - window_size + 1;
-
-    cout << nr_of_windows << '\n';
+    long long ans = (n * min_cards + (n - min_cards_cnt)) - n + 1;
+    cout << ans << '\n';
 }

@@ -44,16 +44,34 @@ void solve() {
         cnt[b[i]]++;
     }
 
-    vector<long long> prefix(m+1);
+    vector<long long> prefix(m);
     prefix[0] = 0;
     for (int i = 1; i < m; ++i) {
         prefix[i] = prefix[i-1] + cnt[i-1];
     }
 
-    long long ans = 1;
-    for (int i = 1; i < m; ++i) {
-        ans = (ans + (cnt[i] * min(n-1, prefix[i]) % mod)) % mod;
+    vector<pair<int,int>> min_seat;
+    for (int i = 0; i < n; ++i) {
+        int left = i-1 >= 0 ? b[i-1] : INT_MAX;
+        int right = i+1 < n ? b[i+1] : INT_MAX;
+
+        int min_seat_time = min(left, right);
+        min_seat.push_back({ b[i], min_seat_time });
     }
 
-    cout << ans << '\n';
+    sort(min_seat.begin(), min_seat.end());
+    long long ans = 1;
+
+    for (int i = 0; i < n; ++i) {
+        auto [time, min_time] = min_seat[i];
+        if (time == 0) continue;
+
+        if (time == min_time + 1) {
+            ans = ans * prefix[time] % mod;
+        } else {
+            ans = ans * cnt[time - 1] % mod;
+        }
+    }
+
+    cout << ans % mod << '\n';
 }
