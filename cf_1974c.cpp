@@ -28,12 +28,11 @@ void solve() {
 
     unordered_set<string> seen;
 
-    auto get_key_2 = [&](int n1, int n2) {
-        return to_string(n1)+','+to_string(n2);
-    };
-
-    auto get_key_3 = [&](int n1, int n2, int n3) {
-        return to_string(n1)+','+to_string(n2)+','+to_string(n3);
+    auto get_key = [](auto... args) {
+        string s;
+        ((s+=to_string(args) + ','), ...);
+        s.pop_back();
+        return s;
     };
 
     for (int i = 0; i < n - 2; ++i) {
@@ -41,10 +40,10 @@ void solve() {
         int a2 = a[i+1];
         int a3 = a[i+2];
 
-        fs[get_key_2(a1,a2)]++;
-        fl[get_key_2(a1,a3)]++;
-        sl[get_key_2(a2,a3)]++;
-        all[get_key_3(a1,a2,a3)]++;
+        fs[get_key(a1,a2)]++;
+        fl[get_key(a1,a3)]++;
+        sl[get_key(a2,a3)]++;
+        all[get_key(a1,a2,a3)]++;
     }
 
     long long ans = 0;
@@ -53,12 +52,12 @@ void solve() {
         int a2 = a[i+1];
         int a3 = a[i+2];
 
-        int all_cnt = all[get_key_3(a1,a2,a3)];
+        int all_cnt = all[get_key(a1,a2,a3)];
 
-        if (seen.insert(get_key_3(a1,a2,a3)).second) {
-            ans += (fs[get_key_2(a1,a2)] - all_cnt)*all_cnt;
-            ans += (fl[get_key_2(a1,a3)] - all_cnt)*all_cnt;
-            ans += (sl[get_key_2(a2,a3)] - all_cnt)*all_cnt;
+        if (seen.insert(get_key(a1,a2,a3)).second) {
+            ans += (fs[get_key(a1,a2)] - all_cnt)*all_cnt;
+            ans += (fl[get_key(a1,a3)] - all_cnt)*all_cnt;
+            ans += (sl[get_key(a2,a3)] - all_cnt)*all_cnt;
         }
     }
 
