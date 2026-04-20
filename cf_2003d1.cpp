@@ -30,23 +30,17 @@ void solve() {
     // each sequence contributes at most 2 values: 1 value when it has no "gaps" and 2 values when it has exactly
     // one "gap" where a gap is defined as a point a[i], a[i+1] such that a[i] + 2 == a[i+1].
     // More generally each sequence contributes 1 past its original mex.
-
-
     auto second_mex = [&](vector<int>& v) {
         sort(v.begin(), v.end());
-
         long long need = 0;
         long long missing = 0;
-
         for (int j = 0; j < (int)v.size(); ++j) {
             if (v[j] < need) continue;
-
             while (need < v[j]) {
                 missing++;
                 if (missing == 2) return need;
                 need++;
             }
-
             need++;
         }
 
