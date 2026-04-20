@@ -2,7 +2,7 @@
 using namespace std;
 
 
-int find_ttff(const vector<int>& set, auto condition) {
+int find_ttff(const vector<int>& set, auto&& condition) {
     int l = 0;
     int r = set.size() - 1;
 
@@ -20,7 +20,7 @@ int find_ttff(const vector<int>& set, auto condition) {
     return l;
 }
 
-int find_fftt(const vector<int>& set, auto condition) {
+int find_fftt(const vector<int>& set, auto&& condition) {
     int l = 0;
     int r = set.size() - 1;
 
