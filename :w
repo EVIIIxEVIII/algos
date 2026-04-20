@@ -1,0 +1,88 @@
+#include <algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve();
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+
+    string s;
+    cin >> s;
+
+    // if the string has even length we can check this greedily
+    // if the string has odd length we need the best possition to minimize
+    // the amount of next moves to fix it
+
+    array<int, 26> odd_pref;
+    odd_pref.fill(0);
+    array<int, 26> even_pref;
+    even_pref.fill(0);
+
+    for (int i = 0; i < n; ++i) {
+        if ((i+1) % 2) {
+            odd_pref[s[i] - 'a']++;
+        } else {
+            even_pref[s[i] - 'a']++;
+        }
+    }
+
+    if (s.size() % 2 == 0) {
+        int ans = n - (*max_element(odd_pref.begin(), odd_pref.end()) + *max_element(even_pref.begin(), even_pref.end()));
+        cout << ans << '\n';
+        return;
+    }
+
+    array<int, 26> odd_suf;
+    odd_suf.fill(0);
+    array<int, 26> even_suf;
+    even_suf.fill(0);
+
+    auto max_sum = [&](array<int,26> arr1, array<int,26> arr2) {
+        int max_s = 0;
+        for (int i = 0; i < 26; ++i) {
+            max_s = max(max_s, arr1[i] + arr2[i]);
+        }
+        return max_s;
+    };
+
+    int best = n;
+    for (int i = n - 1; i >= 0; --i) {
+        if ((i + 1) % 2) {
+            odd_pref[s[i]-'a']--;
+        } else {
+            even_pref[s[i]-'a']--;
+        }
+
+        int odds_part = max_sum(odd_pref, even_suf);
+            odd_pref[max_pos(odd_pref)] + even_suf[max_pos(odd_pref)],
+            odd_pref[max_pos(even_suf)] + even_suf[max_pos(even_suf)]
+        );
+
+        int evens_part = max(
+            even_pref[max_pos(even_pref)] + odd_suf[max_pos(even_pref)],
+            even_pref[max_pos(odd_suf)] + odd_suf[max_pos(odd_suf)]
+        );
+
+        best = min(best, n - odds_part - evens_part);
+
+        if ((i + 1) % 2) {
+            odd_suf[s[i]-'a']++;
+        } else {
+            even_suf[s[i]-'a']++;
+        }
+    }
+
+    cout << best << '\n';
+}
