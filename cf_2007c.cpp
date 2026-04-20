@@ -28,14 +28,21 @@ void solve() {
     // (c[i] % a - c[j] % a).
 
     long long mod = gcd(a, b);
-    cout << mod << '\n';
-    long long min_val = INT_MAX;
-    long long max_val = INT_MIN;
+
+    set<long long> groups;
+    vector<long long> res(n);
 
     for (int i = 0; i < n; ++i) {
-        min_val = min(min_val, c[i] % mod);
-        max_val = max(max_val, c[i] % mod);
+        res[i] = c[i] % mod;
     }
 
-    cout << min(max_val - min_val, (min_val + mod) - max_val) << '\n';
+    sort(res.begin(), res.end());
+    long long max_gap = 0;
+
+    for (int i = 1; i < n; ++i) {
+        max_gap = max(max_gap, res[i] - res[i-1]);
+    }
+    max_gap = max(max_gap, res[0] + mod - res[n-1]);
+
+    cout << mod - max_gap << '\n';
 }
