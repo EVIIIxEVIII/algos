@@ -15,54 +15,44 @@ int main() {
 
 void solve() {
     int n, k, m;
+    cin >> n >> k >> m;
+
     string s;
-    cin >> n >> k >> m >> s;
+    cin >> s;
 
-    const int INF = INT_MAX - 10;
-
-    auto last_char = [&](int idx) -> pair<int, char> {
-        int latest = idx;
-        char c_ans = 'a';
-
-        for (char c = 'a'; c < 'a'+k; ++c) {
-            int found_idx = INF;
-            for (int i = idx; i < m; ++i) {
-                if (s[i] == c) {
-                    found_idx = i;
-                    break;
-                }
-            }
-
-            if (latest < found_idx) {
-                c_ans = c;
-                latest = found_idx;
-            }
-        }
-
-        return {latest, c_ans};
-    };
-
+    array<bool, 26> seen;
+    seen.fill(false);
+    int seen_cnt = 0;
 
     string ans;
-    int start = -1;
-    for (int i = 0; i < n; ++i) {
-        auto [idx, c] = last_char(start+1);
-        start = idx;
+    for (int i = 0; i < m; ++i) {
+        if (!seen[s[i]-'a']) {
+            seen[s[i]-'a'] = true;
+            seen_cnt++;
+        }
 
-        ans.push_back(c);
-        if (start == INF) {
-            cout << "NO" << '\n';
-
-            for (char ch : ans) {
-                cout << ch;
-            }
-            for (int j = 0; j < n - (int)ans.size(); ++j) {
-                cout << c;
-            }
-            cout << '\n';
-            return;
+        if (seen_cnt == k) {
+            ans.push_back(s[i]);
+            seen.fill(false);
+            seen_cnt = 0;
         }
     }
 
-    cout << "YES" << '\n';
+    if ((int)ans.size() >= n) {
+        cout << "YES" << '\n';
+    } else {
+        if (seen_cnt != k) {
+            char c;
+            for (int i = 0; i < k; ++i) {
+                if (!seen[i]) {
+                    c = i+'a';
+                }
+            }
+            while ((int)ans.size() < n) {
+                ans.push_back(c);
+            }
+        }
+        cout << "NO" << '\n';
+        cout << ans << '\n';
+    }
 }
