@@ -17,7 +17,9 @@ void solve() {
     int n;
     cin >> n;
 
-    vector<vector<char>> g(2, vector<char>(n));
+    array<vector<char>, 2> g;
+    g.fill(vector<char>(n));
+
     for (int i = 0; i < n; ++i) {
         cin >> g[0][i];
     }
@@ -25,24 +27,18 @@ void solve() {
         cin >> g[1][i];
     }
 
+    constexpr int INF = 1e9 + 3;
+    vector<int> dp(n+1, INF);
+    dp[0] = 0;
 
-    long long ans = 0;
-    for (int i = 0; i < n;) {
-        int v = g[0][i] != g[1][i];
-        if (i + 1 >= n) {
-            ans += v;
-            break;
-        }
-        int h = (g[0][i+1] != g[0][i]) + (g[1][i+1] != g[1][i]);
+    for (int i = 1; i <= n; ++i) {
+        int j = i - 1;
+        dp[i] = dp[i - 1] + (g[0][j] != g[1][j]);
 
-        if (v < h) {
-            ans += v;
-            i++;
-        } else {
-            ans += h;
-            i += 2;
+        if (i > 1) {
+            dp[i] = min(dp[i], dp[i-2] + (g[0][j-1] != g[0][j]) + (g[1][j-1] != g[1][j]));
         }
     }
 
-    cout << ans << '\n';
+    cout << dp[n] << '\n';
 }
