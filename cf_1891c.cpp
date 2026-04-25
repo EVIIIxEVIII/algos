@@ -38,8 +38,10 @@ void solve() {
             sum -= a[i];
             free -= a[i];
         } else {
-            moves++;
-            sum -= free;
+            if (free > 0) {
+                moves++;
+                sum -= free;
+            }
             moves += sum;
             break;
         }
