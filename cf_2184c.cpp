@@ -14,10 +14,12 @@ int main() {
 }
 
 void solve() {
-    int n; cin >> n;
-    int k; cin >> k;
+    int n, k;
+    cin >> n >> k;
 
-    //int rem = false;
+
+    //bool rem = false;
+
     //for (int i = 0; i < 31; ++i) {
     //    if ((n >> i) == k) {
     //        cout << i << '\n';
@@ -32,21 +34,27 @@ void solve() {
     //    rem |= (n >> i) & 1;
     //}
 
-    int val = 1;
-    for (int i = 0; i < 31; ++i) {
-        if (n % val != 0) {
-            if (n / (1 << i) + 1 == k) {
-                cout << i << '\n';
-                return;
-            }
-        }
+    bool rem = false;
 
-        if (n / val == k) {
-            cout << i << '\n';
+    int fac = 1;
+    int t = 0;
+    while ((n / fac) > 0) {
+        if (n / fac == k) {
+            cout << t << '\n';
             return;
         }
 
-        val *= 2;
+        if (rem && (n / fac) + 1 == k) {
+            cout << t << '\n';
+            return;
+        }
+
+        if ((n / fac) % 2 != 0) {
+            rem = true;
+        }
+
+        fac *= 2;
+        t++;
     }
 
     cout << -1 << '\n';

@@ -1,16 +1,33 @@
-yeah, and I also know binary exponentiation by hearth:
-long long pow_(long long a, long long b) {
-    long long temp = a;
-    long long ans = 1;
 
-    while (b > 0) {
-        if (b & 1) {
-            ans *= temp;
-        }
+I'd try something like this:
 
-        temp *= temp;
-        b >>= 1;
-    }
-
-    return ans;
+int i = 1;
+while (i < n && a[i] == a[i-1]) {
+    ++i;
 }
+
+if (i == n) {
+    return 0;
+}
+
+int j = n-2;
+while (j >= 0 && a[j] == a[j+1]) {
+    --j;
+}
+
+int right_only = a[i-1] * (n-i);
+int left_only = a[j+1] * (j+1);
+
+int ans = min(left_only, right_only);
+for (int k = i; k <= j; ++k) {
+    ans = min(ans, a[k] * k + a[k] * (n-k-1));
+}
+
+Firstly sweep from the left and try to find a prefix of equal values, then the last value
+in the prefix will only need a right operations, then do the same from right to left and check for a left only operation.
+The remaining values in the middle will be forced to used 2 operations.
+
+You are given an array arr of length n. You can do the following operations any number of times (possible zero):
+- choose an index i with 1 <= i <= n - 1 and set all position 0, 1, ... i - 1 to arr[i]; this costs i * arr[i].
+- choose an index i with 0 <= i <= n - 2 and set all positions i+1, i+2, ..., n - 1 to arr[i]; this costs (n - i - 1) * arr[i].
+Compute the minimum total cost to make all elements equal.
