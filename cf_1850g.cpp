@@ -36,6 +36,8 @@ void solve() {
     vector<int> best(n+1, -1);
     dp[0] = 0;
 
+    best[a[0]] = 1;
+
     for (int i = 1; i < n; ++i) {
         dp[i] = dp[i - 1];
 
