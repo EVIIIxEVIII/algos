@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <iomanip>
 using namespace std;
 
 void solve();
@@ -15,21 +14,20 @@ int main() {
 }
 
 void solve() {
-    int n;
-    cin >> n;
+    int n; cin >> n;
 
-    vector<double> c(n);
-    vector<double> p(n);
+    vector<int> c(n);
+    vector<int> p(n);
 
     for (int i = 0; i < n; ++i) {
-        cin >> c[i] >> p[i];
-    }
-    c.push_back(0);
-
-    double ans = c[n];
-    for (int i = n - 1; i >= 0; --i) {
-        ans = max(ans, c[i] + ans * (1.0 - p[i] / 100.0));
+        cin >> c[i];
+        cin >> p[i];
     }
 
-    cout << fixed << setprecision(10) << ans << '\n';
+    double answer = c[n-1];
+    for (int i = n - 2; i >= 0; --i) {
+        answer = max(answer, c[i] + (1.0 - p[i]/100.0) * answer);
+    }
+
+    cout << std::fixed << std::setprecision(10) << answer << '\n';
 }
