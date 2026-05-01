@@ -78,6 +78,10 @@ void solve() {
 
     for (long long i = 0; i < n; ++i) {
         change = max(change, i + cnt_at_col[i] - n);
+        // (n - i - 1) - R
+        //  L - ((n - i - 1) - R) = L + (n - i - 1 - R) =>
+        //  L - n + i + 1 + R, we have L + R + 1 = cnt_at_col[i] =>
+        //  - n + i + 1 => cnt_at_col_[i] - n + i
     }
 
     cout << change + base << '\n';
