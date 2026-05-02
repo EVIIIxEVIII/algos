@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve();
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t; cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+
+    vector<vector<int>> g(n+1);
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+
+    vector<int> cnt(n+1);
+    long long ans = 0;
+    auto dfs = [&](auto&& self, int u) {
+        if (g[u].empty()) {
+            cnt[u] = 1;
+            return;
+        }
+
+        for (int v : g[u]) {
+            self(self, v);
+            cnt[u] += cnt[v];
+            if (cnt[v] % 2) {
+                ans++;
+            }
+        }
+    };
+
+    int root = 1;
+    for (int r = 1; r <= n; ++r) {
+        if (g[r].size() > 1) {
+            root = r;
+            break;
+        }
+    }
+
+    dfs(dfs, root);
+
+    vector<int> dp(n+1, -1e9);
+    auto dfs2 = [&](auto&& self, int u) {
+        if (g[u].empty()) {
+            dp[u] = 0;
+            return;
+        }
+
+        for (int v : g[u]) {
+            self(self, v);
+            dp[u] = max(dp[u], dp[v] + (cnt[v] % 2 ? 1 : -1));
+        }
+    };
+
+    if (cnt[root] % 2) {
+        dfs2(dfs2, root);
+        ans -= dp[root];
+    }
+
+    cout << ans << '\n';
+}
