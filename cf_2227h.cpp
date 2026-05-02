@@ -63,7 +63,6 @@ void solve() {
     }
 
     dfs(dfs, root, 0);
-
     vector<int> dp(n+1, -1e9);
     auto dfs2 = [&](auto&& self, int u, int p) -> void {
         bool is_leaf = true;
