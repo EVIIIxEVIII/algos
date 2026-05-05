@@ -20,5 +20,25 @@ int main() {
 }
 
 void solve() {
+    int n;
+    cin >> n;
 
+    // 1 - for rows
+    // 2 - for cols
+    long long sum = 2 * n * (n + 1) * (2 * n + 1) / 6 - n * (n + 1) / 2;
+
+    cout << sum  << ' ' << 2*n << '\n';
+    for (int i = 1; i <= n; ++i) {
+        cout << 1 << ' ' << i << ' ';
+        for (int j = n; j >= 1; --j) {
+            cout << j << ' ';
+        }
+        cout << '\n';
+
+        cout << 2 << ' ' << i << ' ';
+        for (int j = n; j >= 1; --j) {
+            cout << j << ' ';
+        }
+        cout << '\n';
+    }
 }
