@@ -44,5 +44,6 @@ void solve() {
         val /= 10;
     }
 
+    // tf it actually ACed
     cout << ans << '\n';
 }
