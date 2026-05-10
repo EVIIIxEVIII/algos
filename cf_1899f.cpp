@@ -20,5 +20,29 @@ int main() {
 }
 
 void solve() {
+    int n, q;
+    cin >> n >> q;
 
+    vector<int> d(q);
+    for (int i = 0; i < q; ++i) {
+        cin >> d[i];
+    }
+
+    for (int i = 1; i <= n - 1; ++i) {
+        cout << i << ' ' << i + 1 << '\n';
+    }
+
+    int cur_d = n - 1;
+
+    for (int i = 0; i < q; ++i) {
+        int dist = d[i];
+
+        if (cur_d == dist) {
+            cout << -1 << ' ' << -1 << ' ' << -1 << '\n';
+            continue;
+        }
+
+        cout << n << ' ' << cur_d << ' ' << dist << '\n';
+        cur_d = dist;
+    }
 }
