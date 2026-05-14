@@ -30,37 +30,34 @@ void solve() {
 
     cout << "YES\n";
 
-    int x = k - n + 1;
-    int fixed = n - x;
+    int first = (2*n - 1) - k;
 
     vector<int> ans;
-
-    for (int i = 1; i <= fixed; ++i) {
+    for (int i = 1; i <= first; ++i) {
         ans.push_back(i);
         ans.push_back(i);
     }
 
-    int base = fixed;
-
-    if (x == 1) {
-        ans.push_back(base + 1);
-        ans.push_back(base + 1);
+    int second = n - first;
+    if (second == 1) {
+        ans.push_back(first + 1);
+        ans.push_back(first + 1);
     } else {
-        ans.push_back(base + 1);
-        ans.push_back(base + 2);
+        ans.push_back(first + 1);
+        ans.push_back(first + 2);
 
-        for (int i = 3; i <= x; ++i) {
-            ans.push_back(base + i);
-            ans.push_back(base + i - 2);
+        for (int i = 3; i <= second; ++i) {
+            ans.push_back(first + i);
+            ans.push_back(first + i - 2);
         }
 
-        ans.push_back(base + x - 1);
-        ans.push_back(base + x);
+        ans.push_back(first + second - 1);
+        ans.push_back(first + second);
     }
 
-    for (int v : ans) {
-        cout << v << ' ';
+    for (int val : ans) {
+        cout << val << ' ';
     }
-
     cout << '\n';
 }
+
