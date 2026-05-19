@@ -59,7 +59,6 @@ void solve() {
     }
 
     vector<int> ans(n + 1, 1);
-
     for (auto& [k, v] : prime_gr) {
         if (v.size() == 1) {
             ans[k] = k;
