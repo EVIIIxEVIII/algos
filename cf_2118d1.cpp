@@ -110,5 +110,4 @@ void solve() {
             cout << (traverse_tree(traverse_tree, start_node, start_node, true) ? "YES" : "NO") << '\n';
         }
     }
-
 }
