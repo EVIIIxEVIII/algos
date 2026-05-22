@@ -54,8 +54,26 @@ void solve() {
         dp[s[i]-'a'][i] = i;
     }
 
+    vector<int> dp2(n + 1, 1);
+
+    for (int i = n - 1; i >= 0; --i) {
+        int mx = -1;
+
+        for (int j = 0; j < k; ++j) {
+            if (dp[j][i] == -1) {
+                mx = -1;
+                break;
+            }
+
+            mx = max(mx, dp[j][i]);
+        }
+
+        if (mx != -1) {
+            dp2[i] = dp2[mx + 1] + 1;
+        }
+    }
+
     for (int i = 0; i < q; ++i) {
-        long long ans = 0;
         auto& str = a[i];
 
         int next = dp[str[0]-'a'][0];
@@ -68,30 +86,10 @@ void solve() {
             next = dp[str[j]-'a'][next + 1];
         }
 
-        while (next != -1) {
-            int old = next;
-            int next_next = next;
-            bool bad = false;
-
-            for (int j = 0; j < k; ++j) {
-                int p = dp[j][old + 1];
-
-                if (p == -1) {
-                    bad = true;
-                    break;
-                }
-
-                next_next = max(p, next_next);
-            }
-
-            ans++;
-            if (bad) {
-                break;
-            }
-
-            next = next_next;
+        if (next == -1) {
+            cout << 0 << '\n';
+        } else {
+            cout << dp2[next + 1] << '\n';
         }
-
-        cout << ans << '\n';
     }
 }
