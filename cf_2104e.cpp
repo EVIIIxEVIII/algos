@@ -33,7 +33,6 @@ void solve() {
         cin >> a[i];
     }
 
-
     // for each string in a[i] I need to know what the "best" way in which
     // we can pick a subsequence of characters from s to form a[i], then this would allow to
     // pick the "furthest" new letter to the right, and so on.
