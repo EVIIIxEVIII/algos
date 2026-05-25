@@ -33,6 +33,7 @@ void solve() {
     // set k = 1 and get a = b + r =>
     // b = a - r
     // for that r < b => r < a - r => 2*r < a => r < floor(a/2)
+    // r < floor(a/2) => 2*r < a => 2*r <= a - 1 => r <= floor((a - 1) / 2)
     // so we have values from 0 to floor(a-1/2)
 
     //for (int a_i : a) {
