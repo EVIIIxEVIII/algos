@@ -54,40 +54,69 @@ void solve() {
     // so for a pair a[i], b[i] we must end the block a[i]-1 and block b[i]-1, unless a[i] == b[i], then we
     // may start a block dp[a[i]] = dp[a[i] - 1];
 
+    //long long ans = 0;
+
+    //vector<int> pa(n + 2, n);
+    //vector<int> pb(n + 2, n);
+    //vector<long long> dp(n + 1, n - 1);
+
+    //for (int L = n - 1; L >= 0; --L) {
+    //    int aL = a[L];
+    //    int bL = b[L];
+
+    //    if (aL == bL) {
+    //        int x = aL + 1;
+
+    //        if (x > n || pa[x] == pb[x]) {
+    //            dp[L] = x > n ? n - 1 : dp[pa[x]];
+    //        } else {
+    //            dp[L] = min(pa[x], pb[x]) - 1;
+    //        }
+    //    }
+
+    //    pa[aL] = L;
+    //    pb[bL] = L;
+
+    //    int R;
+
+    //    if (pa[1] == pb[1]) {
+    //        R = dp[pa[1]];
+    //    } else {
+    //        R = min(pa[1], pb[1]) - 1;
+    //    }
+
+    //    if (R >= L) {
+    //        ans += R - L + 1;
+    //    }
+    //}
+
+    //cout << ans << '\n';
+
     long long ans = 0;
+    vector<long long> dp(n + 2, 0);
 
-    vector<int> pa(n + 2, n);
-    vector<int> pb(n + 2, n);
-    vector<long long> dp(n + 1, n - 1);
+    long long active = 0;
 
-    for (int L = n - 1; L >= 0; --L) {
-        int aL = a[L];
-        int bL = b[L];
+    for (int i = 0; i < n; ++i) {
+        dp[1]++;
+        active++;
 
-        if (aL == bL) {
-            int x = aL + 1;
+        int u = a[i];
+        int v = b[i];
 
-            if (x > n || pa[x] == pb[x]) {
-                dp[L] = x > n ? n - 1 : dp[pa[x]];
-            } else {
-                dp[L] = min(pa[x], pb[x]) - 1;
-            }
-        }
-
-        pa[aL] = L;
-        pb[bL] = L;
-
-        int R;
-
-        if (pa[1] == pb[1]) {
-            R = dp[pa[1]];
+        if (u == v) {
+            long long cur = dp[u];
+            dp[u] = 0LL;
+            dp[u + 1] += cur;
         } else {
-            R = min(pa[1], pb[1]) - 1;
+            active -= dp[u];
+            dp[u] = 0LL;
+
+            active -= dp[v];
+            dp[v] = 0LL;
         }
 
-        if (R >= L) {
-            ans += R - L + 1;
-        }
+        ans += active;
     }
 
     cout << ans << '\n';
