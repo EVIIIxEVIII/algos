@@ -95,11 +95,11 @@ void solve() {
     long long ans = 0;
     vector<long long> dp(n + 2, 0);
 
-    long long active = 0;
+    long long Ls = 0;
 
     for (int i = 0; i < n; ++i) {
         dp[1]++;
-        active++;
+        Ls++;
 
         int u = a[i];
         int v = b[i];
@@ -109,14 +109,14 @@ void solve() {
             dp[u] = 0LL;
             dp[u + 1] += cur;
         } else {
-            active -= dp[u];
+            Ls -= dp[u];
             dp[u] = 0LL;
 
-            active -= dp[v];
+            Ls -= dp[v];
             dp[v] = 0LL;
         }
 
-        ans += active;
+        ans += Ls;
     }
 
     cout << ans << '\n';
