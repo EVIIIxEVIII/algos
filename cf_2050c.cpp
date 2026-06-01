@@ -37,6 +37,13 @@ void solve() {
         }
     }
 
+    // Let N = 100a + 10b + c
+    // Let S = a + b + c
+    //
+    // N - S = 99a + 9b = 9(11a + b) => N - S equiv 0 (mod 9) <=>
+    // N equiv S (mod 9). So the sum of digits of a number defines
+    // its divisibility by 9.
+
     for (int a = 0; a <= min(twos, 9LL); ++a) {
         for (int b = 0; b <= min(threes, 9LL); ++b) {
             if ((sum + 2 * a + 6 * b) % 9 == 0) {
